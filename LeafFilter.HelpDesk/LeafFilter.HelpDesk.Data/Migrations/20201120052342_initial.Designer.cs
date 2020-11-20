@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeafFilter.HelpDesk.Data.Migrations
 {
     [DbContext(typeof(HelpDeskContext))]
-    [Migration("20201119232257_initial")]
+    [Migration("20201120052342_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -115,17 +115,25 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                     b.Property<Guid?>("AssignedToId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("DateClosed")
+                    b.Property<string>("Company")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DateClosed")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateOpen")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<Guid?>("RequestedById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("StatusId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("TicketNumber")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -153,6 +161,9 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -168,15 +179,20 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Level")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -197,7 +213,9 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -205,7 +223,7 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -225,7 +243,7 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("LeafFilter.HelpDesk.Models.Records.Ticket", "Ticket")
-                        .WithOne("Issue")
+                        .WithOne("TicketIssue")
                         .HasForeignKey("LeafFilter.HelpDesk.Models.JoinTables.TicketIssue", "TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -287,7 +305,7 @@ namespace LeafFilter.HelpDesk.Data.Migrations
 
             modelBuilder.Entity("LeafFilter.HelpDesk.Models.Records.Ticket", b =>
                 {
-                    b.Navigation("Issue");
+                    b.Navigation("TicketIssue");
                 });
 #pragma warning restore 612, 618
         }

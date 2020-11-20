@@ -1,6 +1,8 @@
 ﻿using LeafFilter.HelpDesk.Models;
+using LeafFilter.HelpDesk.Models.Base;
 using LeafFilter.HelpDesk.Models.JoinTables;
 using LeafFilter.HelpDesk.Models.Records;
+using LeafFilter.HelpDesk.Models.Types;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
@@ -25,11 +27,13 @@ namespace LeafFilter.HelpDesk.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Process> Processes { get; set; }
         public DbSet<SqlScript> SqlScripts { get; set; }
+        public DbSet<IssueSeverity> IssueSeverity { get; set; }
+        public DbSet<TicketStatus> TicketStatus { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //var connectionString = ConfigurationManager.ConnectionStrings["HelpDeskDatabase"].ToString();
-            var connectionString = "Server=localhost; Initial Catalog=HelpDeskData; Integrated Security=SSPI";
+            var connectionString = ConfigurationManager.ConnectionStrings["HelpDeskDatabase"].ToString();
+            //var connectionString = "Server=localhost; Initial Catalog=HelpDeskData; Integrated Security=SSPI";
             optionsBuilder
                 .UseLoggerFactory(logger)
                 .EnableSensitiveDataLogging(true)
@@ -40,8 +44,20 @@ namespace LeafFilter.HelpDesk.Data
         {
             modelBuilder.Entity<TicketIssue>()
                 .HasKey(t => new { t.TicketId, t.IssueId });
+
+            modelBuilder.Entity<IssueSeverity>()
+                .Property(b => b.CreatedDate)
+                .HasDefaultValueSql("GETDATE()");
+
+            modelBuilder.Entity<TicketStatus>()
+                .Property(b => b.CreatedDate)
+                .HasDefaultValueSql("GETDATE()");
+
+            modelBuilder.Entity<Ticket>()
+                .Property(b => b.DateOpen)
+                .HasDefaultValueSql("GETDATE()");
+
             base.OnModelCreating(modelBuilder);
         }
-
     }
 }

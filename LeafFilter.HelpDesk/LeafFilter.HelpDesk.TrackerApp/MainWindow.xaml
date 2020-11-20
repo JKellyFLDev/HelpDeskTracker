@@ -10,33 +10,58 @@
         <ObjectDataProvider x:Key="ticketViewSource"/>
     </Window.Resources>
     <Grid DataContext="{StaticResource ticketViewSource}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="567*"/>
+            <ColumnDefinition Width="193*"/>
+        </Grid.ColumnDefinitions>
         <ListBox x:Name="ticketListBox"
                  SelectedValuePath="Id"
-                 HorizontalAlignment="Left" Height="143" Margin="30,20,0,0" VerticalAlignment="Top" Width="437"
-                 DisplayMemberPath="Id"  SelectionChanged="ticketListBox_SelectionChanged"/>
+                 HorizontalAlignment="Left" Height="143" Margin="30,19,0,0" VerticalAlignment="Top" Width="437"
+                 DisplayMemberPath="Id" SelectionChanged="ticketListBox_SelectionChanged"/>
         <Grid x:Name="grid1" HorizontalAlignment="Left" Margin="30,188,0,0" VerticalAlignment="Top" Width="414">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="115"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Content="First Name" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
-            <TextBlock x:Name="nameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="38,7,-212,7" Grid.Row="0" 
-                       Text="{Binding AssignedTo.FirstName, Mode=TwoWay}"/>
+            <Label Content="Status" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <ComboBox x:Name="statusComboBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="33,0,0,0" 
+                       Text="{Binding Status.Name, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                       SelectionChanged="statusTextBox_TextChanged" Width="100" VerticalAlignment="Center"/>
         </Grid>
         <Grid x:Name="grid2" HorizontalAlignment="Left" Margin="30,225,0,0" VerticalAlignment="Top" Width="414">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="115"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Content="Last Name" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
-            <TextBlock x:Name="lastNameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="38,7,-212,7" Grid.Row="0" 
-                       Text="{Binding AssignedTo.LastName, Mode=TwoWay}"/>
+            <Label Content="Requested By" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <TextBox x:Name="requestByFirstNameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="38,7,-212,7" Grid.Row="0" 
+                       Text="{Binding RequestedBy.FirstName, Mode=TwoWay}" TextChanged="requestByFirstNameTextBox_TextChanged" Width="100"/>
+            <TextBox x:Name="requestByLastNameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="145,7,0,7" Grid.Row="0" 
+                       Text="{Binding RequestedBy.LastName, Mode=TwoWay}" TextChanged="requestByLastNameTextBox_TextChanged" Width="100"/>
         </Grid>
+        <Grid x:Name="grid3" HorizontalAlignment="Left" Margin="30,262,0,0" VerticalAlignment="Top" Width="414">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="115"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="Assigned To" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <TextBox x:Name="assignedToFirstNameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="38,7,0,7" Grid.Row="0" 
+                       Text="{Binding AssignedTo.FirstName, Mode=TwoWay}" TextChanged="assignedToFirstNameTextBox_TextChanged" Width="100"/>
+            <TextBox x:Name="assignedToLastNameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="145,7,0,7" Grid.Row="0" 
+                       Text="{Binding AssignedTo.LastName, Mode=TwoWay}" TextChanged="assignedToLastNameTextBox_TextChanged" Width="100"/>
+        </Grid>
+        <Button Content="New Ticket" HorizontalAlignment="Left" Margin="35,19,0,0" VerticalAlignment="Top" Width="126"
+                Click="NewTicketButton_Click" Grid.Column="1"/>
+        <Button Content="Save" HorizontalAlignment="Left" Margin="35,533,0,0" VerticalAlignment="Top" Width="126" RenderTransformOrigin="0.512,10.707" 
+                Click="SaveButton_Click" Grid.Column="1"/>
     </Grid>
 </Window>

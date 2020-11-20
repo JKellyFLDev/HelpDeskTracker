@@ -2,15 +2,26 @@
 
 namespace LeafFilter.HelpDesk.Data.Migrations
 {
-    public partial class updatemodels : Migration
+    public partial class updateticket : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "TicketNumber",
+                table: "Tickets");
+
             migrationBuilder.AddColumn<string>(
-                name: "Company",
+                name: "Name",
                 table: "Tickets",
                 type: "nvarchar(max)",
                 nullable: true);
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "Name",
+                table: "Tickets");
 
             migrationBuilder.AddColumn<int>(
                 name: "TicketNumber",
@@ -18,17 +29,6 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "Company",
-                table: "Tickets");
-
-            migrationBuilder.DropColumn(
-                name: "TicketNumber",
-                table: "Tickets");
         }
     }
 }
