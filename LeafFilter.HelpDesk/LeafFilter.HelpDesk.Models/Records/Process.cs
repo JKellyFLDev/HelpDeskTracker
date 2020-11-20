@@ -5,6 +5,7 @@ namespace LeafFilter.HelpDesk.Models.Records
 {
     public class Process : RecordEntity
     {
+        public string Name { get; set; }
         public string Description { get; set; }
         public string AdminPage { get; set; }
         public SqlScript Script { get; set; }

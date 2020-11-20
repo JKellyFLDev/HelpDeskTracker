@@ -29,11 +29,12 @@ namespace LeafFilter.HelpDesk.Data
         public DbSet<SqlScript> SqlScripts { get; set; }
         public DbSet<IssueSeverity> IssueSeverity { get; set; }
         public DbSet<TicketStatus> TicketStatus { get; set; }
+        //public DbSet<TicketIssue> TicketIssue { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["HelpDeskDatabase"].ToString();
-            //var connectionString = "Server=localhost; Initial Catalog=HelpDeskData; Integrated Security=SSPI";
+            //var connectionString = ConfigurationManager.ConnectionStrings["HelpDeskDatabase"].ToString();
+            var connectionString = "Server=localhost; Initial Catalog=HelpDeskData; Integrated Security=SSPI";
             optionsBuilder
                 .UseLoggerFactory(logger)
                 .EnableSensitiveDataLogging(true)
@@ -45,17 +46,31 @@ namespace LeafFilter.HelpDesk.Data
             modelBuilder.Entity<TicketIssue>()
                 .HasKey(t => new { t.TicketId, t.IssueId });
 
+            modelBuilder.Entity<TicketIssue>()
+                .HasOne(ti => ti.Issue)
+                .WithMany(i => i.TicketIssues)
+                .HasForeignKey(ti => ti.IssueId);
+
+            modelBuilder.Entity<TicketIssue>()
+                .HasOne(ti => ti.Ticket)
+                .WithMany(t => t.TicketIssues)
+                .HasForeignKey(ti => ti.TicketId);
+
             modelBuilder.Entity<IssueSeverity>()
-                .Property(b => b.CreatedDate)
+                .Property(s => s.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");
 
             modelBuilder.Entity<TicketStatus>()
-                .Property(b => b.CreatedDate)
+                .Property(t => t.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");
 
             modelBuilder.Entity<Ticket>()
-                .Property(b => b.DateOpen)
+                .Property(t => t.DateOpen)
                 .HasDefaultValueSql("GETDATE()");
+
+            modelBuilder.Entity<Issue>()
+                .Property(i => i.CreatedDate)
+                .HasDefaultValueSql("GETDATE()");           
 
             base.OnModelCreating(modelBuilder);
         }

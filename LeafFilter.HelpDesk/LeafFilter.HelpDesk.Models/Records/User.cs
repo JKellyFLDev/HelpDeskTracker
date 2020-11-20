@@ -8,5 +8,9 @@ namespace LeafFilter.HelpDesk.Models.Records
         public string LastName { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 }
