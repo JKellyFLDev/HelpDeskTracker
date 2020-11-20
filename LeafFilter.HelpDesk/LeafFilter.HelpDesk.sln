@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeafFilter.HelpDesk.Models"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeafFilter.HelpDesk.Data", "LeafFilter.HelpDesk.Data\LeafFilter.HelpDesk.Data.csproj", "{D83359D0-D4E3-4E34-AC54-E50C7D646856}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeafFilter.HelpDesk.TestConsole", "LeafFilter.HelpDesk.TestConsole\LeafFilter.HelpDesk.TestConsole.csproj", "{3AADFB11-4E5E-4795-B24B-AAC02B37E2E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{D83359D0-D4E3-4E34-AC54-E50C7D646856}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D83359D0-D4E3-4E34-AC54-E50C7D646856}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D83359D0-D4E3-4E34-AC54-E50C7D646856}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AADFB11-4E5E-4795-B24B-AAC02B37E2E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AADFB11-4E5E-4795-B24B-AAC02B37E2E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AADFB11-4E5E-4795-B24B-AAC02B37E2E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AADFB11-4E5E-4795-B24B-AAC02B37E2E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

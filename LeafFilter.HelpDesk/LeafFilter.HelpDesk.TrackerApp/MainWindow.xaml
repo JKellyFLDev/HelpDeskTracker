@@ -5,8 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LeafFilter.HelpDesk.TrackerApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+        Title="MainWindow" Height="600" Width="760" FontSize="16" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="ticketViewSource"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource ticketViewSource}">
+        <ListBox x:Name="ticketListBox"
+                 SelectedValuePath="Id"
+                 HorizontalAlignment="Left" Height="143" Margin="30,20,0,0" VerticalAlignment="Top" Width="437"
+                 DisplayMemberPath="Id"  SelectionChanged="ticketListBox_SelectionChanged"/>
+        <Grid x:Name="grid1" HorizontalAlignment="Left" Margin="30,188,0,0" VerticalAlignment="Top" Width="414">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="First Name" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <TextBlock x:Name="nameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="38,7,-212,7" Grid.Row="0" 
+                       Text="{Binding AssignedTo.FirstName, Mode=TwoWay}"/>
+        </Grid>
+        <Grid x:Name="grid2" HorizontalAlignment="Left" Margin="30,225,0,0" VerticalAlignment="Top" Width="414">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="Last Name" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <TextBlock x:Name="lastNameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="38,7,-212,7" Grid.Row="0" 
+                       Text="{Binding AssignedTo.LastName, Mode=TwoWay}"/>
+        </Grid>
     </Grid>
 </Window>
