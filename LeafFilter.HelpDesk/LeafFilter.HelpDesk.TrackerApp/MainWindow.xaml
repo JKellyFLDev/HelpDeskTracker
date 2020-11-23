@@ -41,7 +41,7 @@
             </Grid.RowDefinitions>
             <Label Content="Requested By" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
             <TextBox x:Name="requestByFirstNameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="38,7,-212,7" Grid.Row="0" 
-                       Text="{Binding RequestedBy.ToString(), Mode=TwoWay}" TextChanged="requestByFirstNameTextBox_TextChanged" Width="100"/>
+                       Text="{Binding RequestedBy.FirstName, Mode=TwoWay}" TextChanged="requestByFirstNameTextBox_TextChanged" Width="100"/>
             <TextBox x:Name="requestByLastNameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="145,7,0,7" Grid.Row="0" 
                        Text="{Binding RequestedBy.LastName, Mode=TwoWay}" TextChanged="requestByLastNameTextBox_TextChanged" Width="100"/>
         </Grid>
