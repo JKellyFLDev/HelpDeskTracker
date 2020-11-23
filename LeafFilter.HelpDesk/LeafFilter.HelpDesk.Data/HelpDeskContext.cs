@@ -34,7 +34,7 @@ namespace LeafFilter.HelpDesk.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //var connectionString = ConfigurationManager.ConnectionStrings["HelpDeskDatabase"].ToString();
-            var connectionString = "Server=localhost; Initial Catalog=HelpDeskData; Integrated Security=SSPI";
+            var connectionString = "Server=LF942\\MSSQLSERVERLOCAL; Initial Catalog=HelpDeskData; Integrated Security=SSPI";
             optionsBuilder
                 .UseLoggerFactory(logger)
                 .EnableSensitiveDataLogging(true)

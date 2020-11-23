@@ -83,7 +83,13 @@ namespace LeafFilter.HelpDesk.TrackerApp
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            ticketListBox.SelectedItem = _currentTicket;
+            if (_currentTicket.Status.Name == "Done")
+            {
+                _currentTicket.DateClosed = DateTime.Now;
+            }
             _data.SaveChanges();
+
         }
 
         private bool PromptSaveChanges()
