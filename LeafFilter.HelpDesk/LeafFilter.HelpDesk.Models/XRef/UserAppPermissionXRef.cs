@@ -4,11 +4,11 @@ using System;
 
 namespace LeafFilter.HelpDesk.Models.XRef
 {
-    public class UserPermissionXRef
+    public class UserAppPermissionXRef
     {
         public Guid UserId { get; set; }
         public User User { get; set; }
-        public Guid PermissionId { get; set; }
-        public Permission Permission { get; set; }        
+        public Guid AppPermissionId { get; set; }
+        public AppPermission AppPermission { get; set; }        
     }
 }

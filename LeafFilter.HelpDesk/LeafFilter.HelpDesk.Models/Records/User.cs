@@ -9,7 +9,7 @@ namespace LeafFilter.HelpDesk.Models.Records
     {
         public User()
         {
-            UserPermissions = new List<UserPermissionXRef>();
+            UserAppPermissions = new List<UserAppPermissionXRef>();
         }
 
         public Guid Id { get; set; }
@@ -20,6 +20,6 @@ namespace LeafFilter.HelpDesk.Models.Records
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public bool Active { get;set; }
-        public List<UserPermissionXRef> UserPermissions { get; set; }
+        public List<UserAppPermissionXRef> UserAppPermissions { get; set; }
     }
 }

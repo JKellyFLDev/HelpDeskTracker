@@ -15,30 +15,37 @@ namespace LeafFilter.HelpDesk.TestConsole
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Help Desk Tracking!");
-            Console.Write("Menu:\n[1] - Build Test Data\n[2] - Remove Data From Database\n[0] - Quit\nEnter: ");
-            switch (Console.ReadLine())
+            Console.WriteLine("Menu:\n[1] - Build Test Data\n[2] - Remove Data From Database\n[0] - Quit");
+            while (true)
             {
-                case "1":
-                    BuildTestData();
-                    break;
-                case "2":
-                    RemoveData();
-                    break;
-                case "0":
-                    Environment.Exit(0);
-                    break;
-                default:
-                    Console.Write("Invalid input please try again.\nEnter: ");
-                    break;
+                Console.Write("Enter: ");
+                switch (Console.ReadLine())
+                {
+                    case "1":
+                        BuildTestData();
+                        break;
+                    case "2":
+                        RemoveAllData();
+                        break;
+                    case "0":
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        Console.WriteLine("ERROR: Invalid input please try again.");
+                        break;
+                }
             }
-        }  
+        }
         private static void BuildTestData()
         {
-            if(_context.TicketStatus.FirstOrDefault() == null)
+            if (_context.TicketStatus.FirstOrDefault() == null)
                 CreateTicketStatuses();
 
             if (_context.IssueSeverity.FirstOrDefault() == null)
                 CreateIssueSeverities();
+
+            if (_context.AppPermissions.FirstOrDefault() == null)
+                CreateAppPermissions();
 
             if (_context.Users.FirstOrDefault() == null)
                 CreateNewUsers();
@@ -58,9 +65,19 @@ namespace LeafFilter.HelpDesk.TestConsole
             if (_context.Tickets.FirstOrDefault() == null)
                 CreateMultipleTickets();
         }
-        private static void RemoveData()
+        private static void RemoveAllData()
         {
-            Console.WriteLine("Need to implement method");
+            Console.WriteLine("Removing all records from database...");
+            _context.Tickets.Clear();
+            _context.Issues.Clear();
+            _context.Processes.Clear();
+            _context.Pages.Clear();
+            _context.Scripts.Clear();
+            _context.Users.Clear();
+            _context.AppPermissions.Clear();
+            _context.IssueSeverity.Clear();
+            _context.TicketStatus.Clear();
+            _context.SaveChanges();
         }
         private static void CreateTicketStatuses()
         {
@@ -117,8 +134,26 @@ namespace LeafFilter.HelpDesk.TestConsole
             _context.AddRange(issueSeverities);
             _context.SaveChanges();
         }
+        private static void CreateAppPermissions()
+        {
+            var permissions = new List<AppPermission>()
+            {
+                new AppPermission
+                {
+                    Name = "Admin",
+                    CreatedBy = Environment.UserName
+                },
+                new AppPermission
+                {
+                    Name = "User",
+                    CreatedBy = Environment.UserName
+                }
+            };
+            _context.AddRange(permissions);
+            _context.SaveChanges();
+        }
         private static void CreateNewUsers()
-        {            
+        {
             var users = new List<User>()
             {
                 new User
@@ -127,6 +162,13 @@ namespace LeafFilter.HelpDesk.TestConsole
                     LastName = "Weber",
                     Email = "gweber@leaffilter.com",
                     UserName = "gweber",
+                    UserAppPermissions = new List<UserAppPermissionXRef>()
+                    {
+                        new UserAppPermissionXRef
+                        {
+                            AppPermission = _context.AppPermissions.FirstOrDefault(p => p.Name == "Admin")
+                        }
+                    },
                     CreatedBy = Environment.UserName
                 },
                 new User
@@ -135,6 +177,13 @@ namespace LeafFilter.HelpDesk.TestConsole
                     LastName = "Kelly",
                     Email = "jkelly@leaffilter.com",
                     UserName = "jkelly",
+                    UserAppPermissions = new List<UserAppPermissionXRef>()
+                    {
+                        new UserAppPermissionXRef
+                        {
+                            AppPermission = _context.AppPermissions.FirstOrDefault(p => p.Name == "Admin")
+                        }
+                    },
                     CreatedBy = Environment.UserName
                 },
                 new User
@@ -142,6 +191,13 @@ namespace LeafFilter.HelpDesk.TestConsole
                     FirstName = "John",
                     LastName = "Smith",
                     UserName = "jsmith",
+                    UserAppPermissions = new List<UserAppPermissionXRef>()
+                    {
+                        new UserAppPermissionXRef
+                        {
+                            AppPermission = _context.AppPermissions.FirstOrDefault(p => p.Name == "User")
+                        }
+                    },
                     CreatedBy = Environment.UserName
                 },
                 new User
@@ -150,12 +206,19 @@ namespace LeafFilter.HelpDesk.TestConsole
                     LastName = "Barker",
                     UserName = "mbarker",
                     Email = "mbarker@leaffilter.com",
+                    UserAppPermissions = new List<UserAppPermissionXRef>()
+                    {
+                        new UserAppPermissionXRef
+                        {
+                            AppPermission = _context.AppPermissions.FirstOrDefault(p => p.Name == "Admin")
+                        }
+                    },
                     CreatedBy = Environment.UserName
                 },
             };
             _context.AddRange(users);
             _context.SaveChanges();
-        }        
+        }
         private static void CreateNewScripts()
         {
             var scripts = new List<Script>()
@@ -185,13 +248,13 @@ namespace LeafFilter.HelpDesk.TestConsole
                 new Page
                 {
                     Name = "Search-Web",
-                    Uri = new Uri("google.com"),                    
+                    Url = "google.com",
                     CreatedBy = Environment.UserName
                 },
                 new Page
                 {
                     Name = "Remove-Lead",
-                    Uri = new Uri("bing.com"),
+                    Url = "bing.com",
                     CreatedBy = Environment.UserName
                 }
             };
@@ -425,7 +488,7 @@ namespace LeafFilter.HelpDesk.TestConsole
                 },
                 new Ticket {
                     Name = "Ticket-AB-091",
-                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jsmith"),     
+                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jsmith"),
                     Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Pending"),
                     CreatedBy = Environment.UserName,
                     TicketIssues = new List<TicketIssueXRef>()

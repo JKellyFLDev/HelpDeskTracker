@@ -75,7 +75,7 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Uri")
+                    b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -231,6 +231,42 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("LeafFilter.HelpDesk.Models.Types.AppPermission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Active")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValueSql("1");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppPermissions");
+                });
+
             modelBuilder.Entity("LeafFilter.HelpDesk.Models.Types.IssueSeverity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -268,42 +304,6 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("IssueSeverity");
-                });
-
-            modelBuilder.Entity("LeafFilter.HelpDesk.Models.Types.Permission", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValueSql("1");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Permission");
                 });
 
             modelBuilder.Entity("LeafFilter.HelpDesk.Models.Types.TicketStatus", b =>
@@ -405,19 +405,19 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                     b.ToTable("TicketIssueXRef");
                 });
 
-            modelBuilder.Entity("LeafFilter.HelpDesk.Models.XRef.UserPermissionXRef", b =>
+            modelBuilder.Entity("LeafFilter.HelpDesk.Models.XRef.UserAppPermissionXRef", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PermissionId")
+                    b.Property<Guid>("AppPermissionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("UserId", "PermissionId");
+                    b.HasKey("UserId", "AppPermissionId");
 
-                    b.HasIndex("PermissionId");
+                    b.HasIndex("AppPermissionId");
 
-                    b.ToTable("UserPermissionXRef");
+                    b.ToTable("UserAppPermissionXRef");
                 });
 
             modelBuilder.Entity("LeafFilter.HelpDesk.Models.Records.Issue", b =>
@@ -526,21 +526,21 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                     b.Navigation("Ticket");
                 });
 
-            modelBuilder.Entity("LeafFilter.HelpDesk.Models.XRef.UserPermissionXRef", b =>
+            modelBuilder.Entity("LeafFilter.HelpDesk.Models.XRef.UserAppPermissionXRef", b =>
                 {
-                    b.HasOne("LeafFilter.HelpDesk.Models.Types.Permission", "Permission")
-                        .WithMany("UserPermissions")
-                        .HasForeignKey("PermissionId")
+                    b.HasOne("LeafFilter.HelpDesk.Models.Types.AppPermission", "AppPermission")
+                        .WithMany("UserAppPermissions")
+                        .HasForeignKey("AppPermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("LeafFilter.HelpDesk.Models.Records.User", "User")
-                        .WithMany("UserPermissions")
+                        .WithMany("UserAppPermissions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Permission");
+                    b.Navigation("AppPermission");
 
                     b.Navigation("User");
                 });
@@ -578,12 +578,12 @@ namespace LeafFilter.HelpDesk.Data.Migrations
 
             modelBuilder.Entity("LeafFilter.HelpDesk.Models.Records.User", b =>
                 {
-                    b.Navigation("UserPermissions");
+                    b.Navigation("UserAppPermissions");
                 });
 
-            modelBuilder.Entity("LeafFilter.HelpDesk.Models.Types.Permission", b =>
+            modelBuilder.Entity("LeafFilter.HelpDesk.Models.Types.AppPermission", b =>
                 {
-                    b.Navigation("UserPermissions");
+                    b.Navigation("UserAppPermissions");
                 });
 #pragma warning restore 612, 618
         }

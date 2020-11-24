@@ -3,10 +3,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LeafFilter.HelpDesk.Data.Migrations
 {
-    public partial class initialv1 : Migration
+    public partial class initialv11 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AppPermissions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValueSql: "1")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppPermissions", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "IssueSeverity",
                 columns: table => new
@@ -33,7 +51,7 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Uri = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Label = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -41,24 +59,6 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pages", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Permission",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Active = table.Column<bool>(type: "bit", nullable: false, defaultValueSql: "1")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Permission", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -243,23 +243,23 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserPermissionXRef",
+                name: "UserAppPermissionXRef",
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PermissionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    AppPermissionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserPermissionXRef", x => new { x.UserId, x.PermissionId });
+                    table.PrimaryKey("PK_UserAppPermissionXRef", x => new { x.UserId, x.AppPermissionId });
                     table.ForeignKey(
-                        name: "FK_UserPermissionXRef_Permission_PermissionId",
-                        column: x => x.PermissionId,
-                        principalTable: "Permission",
+                        name: "FK_UserAppPermissionXRef_AppPermissions_AppPermissionId",
+                        column: x => x.AppPermissionId,
+                        principalTable: "AppPermissions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserPermissionXRef_Users_UserId",
+                        name: "FK_UserAppPermissionXRef_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -356,9 +356,9 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserPermissionXRef_PermissionId",
-                table: "UserPermissionXRef",
-                column: "PermissionId");
+                name: "IX_UserAppPermissionXRef_AppPermissionId",
+                table: "UserAppPermissionXRef",
+                column: "AppPermissionId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -376,7 +376,7 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                 name: "TicketIssueXRef");
 
             migrationBuilder.DropTable(
-                name: "UserPermissionXRef");
+                name: "UserAppPermissionXRef");
 
             migrationBuilder.DropTable(
                 name: "Pages");
@@ -394,7 +394,7 @@ namespace LeafFilter.HelpDesk.Data.Migrations
                 name: "Tickets");
 
             migrationBuilder.DropTable(
-                name: "Permission");
+                name: "AppPermissions");
 
             migrationBuilder.DropTable(
                 name: "IssueSeverity");

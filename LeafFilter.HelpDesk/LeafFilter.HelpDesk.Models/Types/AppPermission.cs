@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace LeafFilter.HelpDesk.Models.Types
 {
-    public class Permission : ITypeEntity
+    public class AppPermission : ITypeEntity
     {
-        public Permission()
+        public AppPermission()
         {
-            UserPermissions = new List<UserPermissionXRef>();
+            UserAppPermissions = new List<UserAppPermissionXRef>();
         }
 
         public Guid Id { get; set; }
@@ -20,6 +20,6 @@ namespace LeafFilter.HelpDesk.Models.Types
         public DateTime? ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public bool Active { get; set; }
-        public List<UserPermissionXRef> UserPermissions { get; set; }
+        public List<UserAppPermissionXRef> UserAppPermissions { get; set; }
     }
 }

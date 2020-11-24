@@ -24,6 +24,7 @@ namespace LeafFilter.HelpDesk.Data
 
         public DbSet<IssueSeverity> IssueSeverity { get; set; }
         public DbSet<TicketStatus> TicketStatus { get; set; }
+        public DbSet<AppPermission> AppPermissions { get; set; }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Script> Scripts { get; set; }
@@ -32,17 +33,17 @@ namespace LeafFilter.HelpDesk.Data
         public DbSet<Issue> Issues { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
 
-        //public DbSet<UserPermissionXRef> UserPermissions { get; set; }
+        //public DbSet<UserAppPermissionXRef> UserAppPermissions { get; set; }
         //public DbSet<ProcessScriptXRef> ProcessScripts { get; set; }
         //public DbSet<ProcessPageXRef> ProcessPages { get; set; }
         //public DbSet<IssueProcessXRef> IssueProcesses { get; set; }
         //public DbSet<TicketIssueXRef> TicketIssues { get; set; }
 
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 #if DEBUG
             var connectionString = "Server=localhost; Initial Catalog=HelpDeskDB; Integrated Security=SSPI";
+            //var connectionString = "Server=LF942\\MSSQLSERVERLOCAL; Initial Catalog=HelpDeskData; Integrated Security=SSPI";
 #elif RELEASE
             var connectionString = ConfigurationManager.ConnectionStrings["LocalDatabase"].ToString();
             //var connectionString = ConfigurationManager.ConnectionStrings["DevDatabase"].ToString();
@@ -56,16 +57,16 @@ namespace LeafFilter.HelpDesk.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // UserPermissionXRef
-            modelBuilder.Entity<UserPermissionXRef>()
-                .HasKey(x => new { x.UserId, x.PermissionId });
-            modelBuilder.Entity<UserPermissionXRef>()
+            modelBuilder.Entity<UserAppPermissionXRef>()
+                .HasKey(x => new { x.UserId, x.AppPermissionId });
+            modelBuilder.Entity<UserAppPermissionXRef>()
                 .HasOne(up => up.User)
-                .WithMany(u => u.UserPermissions)
+                .WithMany(u => u.UserAppPermissions)
                 .HasForeignKey(up => up.UserId);
-            modelBuilder.Entity<UserPermissionXRef>()
-                .HasOne(up => up.Permission)
-                .WithMany(p => p.UserPermissions)
-                .HasForeignKey(up => up.PermissionId);
+            modelBuilder.Entity<UserAppPermissionXRef>()
+                .HasOne(up => up.AppPermission)
+                .WithMany(p => p.UserAppPermissions)
+                .HasForeignKey(up => up.AppPermissionId);
 
             // ProcessScriptXRef
             modelBuilder.Entity<ProcessScriptXRef>()
@@ -129,10 +130,10 @@ namespace LeafFilter.HelpDesk.Data
                 .Property(s => s.Active)
                 .HasDefaultValueSql("1");
 
-            modelBuilder.Entity<Permission>()
+            modelBuilder.Entity<AppPermission>()
                 .Property(t => t.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");
-            modelBuilder.Entity<Permission>()
+            modelBuilder.Entity<AppPermission>()
                 .Property(t => t.Active)
                 .HasDefaultValueSql("1");         
             
