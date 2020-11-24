@@ -2,27 +2,24 @@
 using LeafFilter.HelpDesk.Models.XRef;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace LeafFilter.HelpDesk.Models.Records
 {
-    public class Process : IEntity
+    public class Page : IEntity
     {
-        public Process()
+        public Page()
         {
-            IssueProcesses = new List<IssueProcessXRef>();
-            ProcessScripts = new List<ProcessScriptXRef>();
             ProcessPages = new List<ProcessPageXRef>();
         }
 
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public bool UsesScript { get; set; }
-        public bool UsesAdminPage { get; set; }
+        public Uri Uri { get; set; }
+        public string Label { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string CreatedBy { get; set; }        
-        public List<IssueProcessXRef> IssueProcesses { get; set; }
-        public List<ProcessScriptXRef> ProcessScripts { get; set; }
+        public string CreatedBy { get; set; }
         public List<ProcessPageXRef> ProcessPages { get; set; }
     }
 }

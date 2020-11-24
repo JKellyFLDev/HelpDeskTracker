@@ -1,10 +1,9 @@
-﻿using LeafFilter.HelpDesk.Models.Base;
-using LeafFilter.HelpDesk.Models.Records;
+﻿using LeafFilter.HelpDesk.Models.Records;
 using System;
 
-namespace LeafFilter.HelpDesk.Models.JoinTables
+namespace LeafFilter.HelpDesk.Models.XRef
 {
-    public class TicketIssue
+    public class TicketIssueXRef
     {               
         public Guid TicketId { get; set; }
         public Ticket Ticket { get; set; }

@@ -86,10 +86,9 @@ namespace LeafFilter.HelpDesk.TrackerApp
             ticketListBox.SelectedItem = _currentTicket;
             if (_currentTicket.Status.Name == "Done")
             {
-                _currentTicket.DateClosed = DateTime.Now;
+                _currentTicket.DateResolved = DateTime.Now;
             }
             _data.SaveChanges();
-
         }
 
         private bool PromptSaveChanges()

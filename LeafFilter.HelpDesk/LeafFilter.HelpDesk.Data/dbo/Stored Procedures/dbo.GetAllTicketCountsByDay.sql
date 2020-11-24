@@ -12,7 +12,7 @@ END HEADER **/
 
 --EXEC [dbo].[GetAllTicketCountsByDay]
 
-USE [HelpDeskData]
+USE [HelpDeskDB]
 GO
 
 SET ANSI_NULLS ON
@@ -23,11 +23,11 @@ GO
 CREATE PROCEDURE [dbo].[GetAllTicketsCountsByDay]
 AS
     SELECT
-        CAST(T.DateOpen AS DATE) AS 'DateOpened',
-        DATENAME(dw,T.DateOpen) AS 'DayOfTheWeek',
-        COUNT(DATENAME(dw,T.DateOpen)) AS 'Count'
+        CAST(T.DateOpened AS DATE) AS 'DateOpened',
+        DATENAME(dw,T.DateOpened) AS 'DayOfTheWeek',
+        COUNT(DATENAME(dw,T.DateOpened)) AS 'Count'
     FROM dbo.Tickets T
     GROUP BY
-        CAST(T.DateOpen AS DATE),
-        DATENAME(dw,T.DateOpen)
+        CAST(T.DateOpened AS DATE),
+        DATENAME(dw,T.DateOpened)
 GO

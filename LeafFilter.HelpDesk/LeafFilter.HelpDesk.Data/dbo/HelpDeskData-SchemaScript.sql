@@ -24,13 +24,13 @@ GO
 CREATE PROCEDURE [dbo].[GetAllTicketsCountsByDay]
 AS
     SELECT
-        CAST(T.DateOpen AS DATE) AS 'DateOpened',
-        DATENAME(dw,T.DateOpen) AS 'DayOfTheWeek',
-        COUNT(DATENAME(dw,T.DateOpen)) AS 'Count'
+        CAST(T.DateOpened AS DATE) AS 'DateOpened',
+        DATENAME(dw,T.DateOpened) AS 'DayOfTheWeek',
+        COUNT(DATENAME(dw,T.DateOpened)) AS 'Count'
     FROM dbo.Tickets T
     GROUP BY
-        CAST(T.DateOpen AS DATE),
-        DATENAME(dw,T.DateOpen)
+        CAST(T.DateOpened AS DATE),
+        DATENAME(dw,T.DateOpened)
 GO
 IF OBJECT_ID('dbo.GetIssueCountsForDateRange', 'P') IS NOT NULL
 	DROP PROCEDURE [dbo].[GetIssueCountsForDateRange]
@@ -52,9 +52,9 @@ AS
         I.Name AS 'Name',
         COUNT(I.Id) AS 'Count'
     FROM dbo.Tickets T
-        INNER JOIN dbo.TicketIssue TI ON T.Id = TI.TicketId
+        INNER JOIN dbo.TicketIssueXRef TI ON T.Id = TI.TicketId
         INNER JOIN dbo.Issues I ON I.Id = TI.IssueId
-    WHERE T.DateOpen BETWEEN @StartDate AND @EndDate
+    WHERE T.DateOpened BETWEEN @StartDate AND @EndDate
     GROUP BY
         I.Id, I.Name
 GO

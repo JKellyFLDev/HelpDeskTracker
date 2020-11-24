@@ -13,7 +13,7 @@ END HEADER **/
 
 --EXEC [dbo].[GetIssueCountsForDateRange] '2020-11-20', '2020-11-23'
 
-USE [HelpDeskData]
+USE [HelpDeskDB]
 GO
 
 SET ANSI_NULLS ON
@@ -38,9 +38,9 @@ AS
         I.Name AS 'Name',
         COUNT(I.Id) AS 'Count'
     FROM dbo.Tickets T
-        INNER JOIN dbo.TicketIssue TI ON T.Id = TI.TicketId
+        INNER JOIN dbo.TicketIssueXRef TI ON T.Id = TI.TicketId
         INNER JOIN dbo.Issues I ON I.Id = TI.IssueId
-    WHERE T.DateOpen BETWEEN @StartDate AND @EndDate
+    WHERE T.DateOpened BETWEEN @StartDate AND @EndDate
     GROUP BY
         I.Id, I.Name
 GO

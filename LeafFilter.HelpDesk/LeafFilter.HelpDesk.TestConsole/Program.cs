@@ -1,5 +1,5 @@
 ﻿using LeafFilter.HelpDesk.Data;
-using LeafFilter.HelpDesk.Models.JoinTables;
+using LeafFilter.HelpDesk.Models.XRef;
 using LeafFilter.HelpDesk.Models.Records;
 using LeafFilter.HelpDesk.Models.Types;
 using System;
@@ -15,87 +15,66 @@ namespace LeafFilter.HelpDesk.TestConsole
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Help Desk Tracking!");
-
-            if (_context.TicketStatus.FirstOrDefault() == null)
+            Console.Write("Menu:\n[1] - Build Test Data\n[2] - Remove Data From Database\n[0] - Quit\nEnter: ");
+            switch (Console.ReadLine())
+            {
+                case "1":
+                    BuildTestData();
+                    break;
+                case "2":
+                    RemoveData();
+                    break;
+                case "0":
+                    Environment.Exit(0);
+                    break;
+                default:
+                    Console.Write("Invalid input please try again.\nEnter: ");
+                    break;
+            }
+        }  
+        private static void BuildTestData()
+        {
+            if(_context.TicketStatus.FirstOrDefault() == null)
                 CreateTicketStatuses();
 
             if (_context.IssueSeverity.FirstOrDefault() == null)
                 CreateIssueSeverities();
 
+            if (_context.Users.FirstOrDefault() == null)
+                CreateNewUsers();
+
+            if (_context.Scripts.FirstOrDefault() == null)
+                CreateNewScripts();
+
+            if (_context.Pages.FirstOrDefault() == null)
+                CreateNewPages();
+
+            if (_context.Processes.FirstOrDefault() == null)
+                CreateNewProcesses();
+
             if (_context.Issues.FirstOrDefault() == null)
                 CreateMultipleIssues();
 
             if (_context.Tickets.FirstOrDefault() == null)
-                InsertMultipleTickets();            
-
-            if (_context.Tickets.FirstOrDefault().TicketIssues.Count == 0)
-                AddIssuesToTickets();
+                CreateMultipleTickets();
         }
-
-        private static void InsertMultipleTickets()
+        private static void RemoveData()
         {
-            var tickets = new List<Ticket>()
-            {
-                new Ticket {
-                    Name = "Ticket-ACD-s11",
-                    RequestedBy = new User
-                    {
-                        FirstName = "Glenn",
-                        LastName = "Weber",
-                        Email = "gweber@leaffilter.com",
-                        UserName = "gweber"
-                    },
-                    AssignedTo = new User
-                    {
-                        FirstName = "James",
-                        LastName = "Kelly",
-                        Email = "jkelly@leaffilter.com",
-                        UserName = "jkelly"
-                    },
-                    Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "New")
-                },
-                new Ticket {
-                    Name = "Ticket-AB-s11",
-                    RequestedBy = new User
-                    {
-                        FirstName = "John",
-                        LastName = "Smith"
-                    },
-                    AssignedTo = new User
-                    {
-                        FirstName = "Mike",
-                        LastName = "Baker"
-                    },
-                    Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Pending")
-                },
-                new Ticket {
-                    Name = "Ticket-AB-091",
-                    RequestedBy = new User
-                    {
-                        FirstName = "John",
-                        LastName = "Smith"
-                    },
-                    Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Pending")
-                },
-            };
-            _context.AddRange(tickets);
-            _context.SaveChanges();
+            Console.WriteLine("Need to implement method");
         }
-
         private static void CreateTicketStatuses()
         {
             var ticketStatuses = new List<TicketStatus>()
             {
-                new TicketStatus { Name = "New",            CreatedBy = "jkelly"},
-                new TicketStatus { Name = "Pending",        CreatedBy = "jkelly"},
-                new TicketStatus { Name = "In-Progress",    CreatedBy = "jkelly"},
-                new TicketStatus { Name = "Done",           CreatedBy = "jkelly"},
-                new TicketStatus { Name = "Canceled",       CreatedBy = "jkelly"}
+                new TicketStatus { Name = "New",            CreatedBy = Environment.UserName},
+                new TicketStatus { Name = "Pending",        CreatedBy = Environment.UserName},
+                new TicketStatus { Name = "In-Progress",    CreatedBy = Environment.UserName},
+                new TicketStatus { Name = "Done",           CreatedBy = Environment.UserName},
+                new TicketStatus { Name = "Canceled",       CreatedBy = Environment.UserName}
             };
             _context.AddRange(ticketStatuses);
             _context.SaveChanges();
         }
-
         private static void CreateIssueSeverities()
         {
             var issueSeverities = new List<IssueSeverity>()
@@ -105,39 +84,200 @@ namespace LeafFilter.HelpDesk.TestConsole
                     Level = "S1",
                     Name = "Emergency",
                     Description = "The issue is prevent all or most Users from using Platform",
-                    CreatedBy = "jkelly"
+                    CreatedBy = Environment.UserName
                 },
                 new IssueSeverity
                 {
                     Level = "S2",
                     Name = "Critical",
                     Description = "The System is adversely impacted.",
-                    CreatedBy = "jkelly"
+                    CreatedBy = Environment.UserName
                 },
                 new IssueSeverity {
                     Level = "S3",
                     Name = "Major",
                     Description = "The system experienced an error, short-term workaround available.",
-                    CreatedBy = "jkelly"
+                    CreatedBy = Environment.UserName
                 },
                 new IssueSeverity
                 {
                     Level = "S4",
                     Name = "Minor",
                     Description = "Issue and requests without significant impact on system.",
-                    CreatedBy = "jkelly"
+                    CreatedBy = Environment.UserName
                 },
                 new IssueSeverity
                 {
                     Level = "S5",
                     Name = "Trivial",
                     Description = "A condition might warrant action.",
-                    CreatedBy = "jkelly"}
+                    CreatedBy = Environment.UserName
+                }
             };
             _context.AddRange(issueSeverities);
             _context.SaveChanges();
         }
-
+        private static void CreateNewUsers()
+        {            
+            var users = new List<User>()
+            {
+                new User
+                {
+                    FirstName = "Glenn",
+                    LastName = "Weber",
+                    Email = "gweber@leaffilter.com",
+                    UserName = "gweber",
+                    CreatedBy = Environment.UserName
+                },
+                new User
+                {
+                    FirstName = "James",
+                    LastName = "Kelly",
+                    Email = "jkelly@leaffilter.com",
+                    UserName = "jkelly",
+                    CreatedBy = Environment.UserName
+                },
+                new User
+                {
+                    FirstName = "John",
+                    LastName = "Smith",
+                    UserName = "jsmith",
+                    CreatedBy = Environment.UserName
+                },
+                new User
+                {
+                    FirstName = "Mike",
+                    LastName = "Barker",
+                    UserName = "mbarker",
+                    Email = "mbarker@leaffilter.com",
+                    CreatedBy = Environment.UserName
+                },
+            };
+            _context.AddRange(users);
+            _context.SaveChanges();
+        }        
+        private static void CreateNewScripts()
+        {
+            var scripts = new List<Script>()
+            {
+                new Script
+                {
+                    Name = "Get-Info",
+                    Header = @"--Basic Scripts for getting info",
+                    Body = @"SELECT * FROM dbo.Tickets",
+                    CreatedBy = Environment.UserName
+                },
+                new Script
+                {
+                    Name = "Delete-Info",
+                    Header = @"--Basic Scripts for deleting info",
+                    Body = @"DELECT FROM dbo.Tickets",
+                    CreatedBy = Environment.UserName
+                }
+            };
+            _context.AddRange(scripts);
+            _context.SaveChanges();
+        }
+        private static void CreateNewPages()
+        {
+            var pages = new List<Page>()
+            {
+                new Page
+                {
+                    Name = "Search-Web",
+                    Uri = new Uri("google.com"),                    
+                    CreatedBy = Environment.UserName
+                },
+                new Page
+                {
+                    Name = "Remove-Lead",
+                    Uri = new Uri("bing.com"),
+                    CreatedBy = Environment.UserName
+                }
+            };
+            _context.AddRange(pages);
+            _context.SaveChanges();
+        }
+        private static void CreateNewProcesses()
+        {
+            var processes = new List<Process>()
+            {
+                new Process
+                {
+                    Name = "PRO-010-001",
+                    Description = "Select From Specific Table",
+                    UsesScript = true,
+                    UsesAdminPage = false,
+                    ProcessScripts = new List<ProcessScriptXRef>()
+                    {
+                        new ProcessScriptXRef
+                        {
+                            Script = _context.Scripts.FirstOrDefault(s => s.Name == "Get-Info")
+                        }
+                    },
+                    CreatedBy = Environment.UserName
+                },
+                new Process
+                {
+                    Name = "PRO-510-011",
+                    Description = "Select From Specific Table",
+                    UsesScript = true,
+                    UsesAdminPage = false,
+                    ProcessScripts = new List<ProcessScriptXRef>()
+                    {
+                        new ProcessScriptXRef
+                        {
+                            Script = _context.Scripts.FirstOrDefault(s => s.Name == "Get-Info")
+                        },
+                        new ProcessScriptXRef
+                        {
+                            Script = _context.Scripts.FirstOrDefault(s => s.Name == "Delete-Info")
+                        }
+                    },
+                    CreatedBy = Environment.UserName
+                },
+                new Process
+                {
+                    Name = "PRO-213-001",
+                    Description = "Select From Specific Table",
+                    UsesScript = true,
+                    UsesAdminPage = false,
+                    ProcessScripts = new List<ProcessScriptXRef>()
+                    {
+                        new ProcessScriptXRef
+                        {
+                            Script = _context.Scripts.FirstOrDefault(s => s.Name == "Get-Info")
+                        },
+                        new ProcessScriptXRef
+                        {
+                            Script = _context.Scripts.FirstOrDefault(s => s.Name == "Delete-Info")
+                        }
+                    },
+                    CreatedBy = Environment.UserName
+                },
+                new Process
+                {
+                    Name = "PRO-464-001",
+                    Description = "Jeff Super Secret Page",
+                    UsesScript = false,
+                    UsesAdminPage = true,
+                    ProcessPages = new List<ProcessPageXRef>()
+                    {
+                        new ProcessPageXRef
+                        {
+                            Page = _context.Pages.FirstOrDefault(s => s.Name == "Search-Web")
+                        },
+                        new ProcessPageXRef
+                        {
+                            Page = _context.Pages.FirstOrDefault(s => s.Name == "Remove-Lead")
+                        }
+                    },
+                    CreatedBy = Environment.UserName
+                }
+            };
+            _context.Processes.AddRange(processes);
+            _context.SaveChanges();
+        }
         private static void CreateMultipleIssues()
         {
             var issues = new List<Issue>()
@@ -147,11 +287,14 @@ namespace LeafFilter.HelpDesk.TestConsole
                     Name = "Issue-A-001",
                     Description = "Does a thing.",
                     IssueSeverity = _context.IssueSeverity.FirstOrDefault(s => s.Level == "S1"),
-                    CreatedBy = "jkelly",
-                    Process = new Process
+                    CreatedBy = Environment.UserName,
+                    IssueProcesses = new List<IssueProcessXRef>()
                     {
-                        Name = "Select [id] From [table]",
-                        UsesScript = true
+                        new IssueProcessXRef
+                        {
+                            Process = _context.Processes.First(p => p.Name == "PRO-010-001"),
+                            Order = 1
+                        }
                     }
                 },
                 new Issue
@@ -159,11 +302,14 @@ namespace LeafFilter.HelpDesk.TestConsole
                     Name = "Issue-A-002",
                     Description = "Does a thing.",
                     IssueSeverity = _context.IssueSeverity.FirstOrDefault(s => s.Level == "S1"),
-                    CreatedBy = "jkelly",
-                    Process = new Process
+                    CreatedBy = Environment.UserName,
+                    IssueProcesses = new List<IssueProcessXRef>()
                     {
-                        Name = "Select [id],[Name] From [table]",
-                        UsesScript = true
+                        new IssueProcessXRef
+                        {
+                            Process = _context.Processes.First(p => p.Name == "PRO-010-001"),
+                            Order = 1
+                        }
                     }
                 },
                 new Issue
@@ -171,11 +317,14 @@ namespace LeafFilter.HelpDesk.TestConsole
                     Name = "Issue-F-003",
                     Description = "Does a thing.",
                     IssueSeverity = _context.IssueSeverity.FirstOrDefault(s => s.Level == "S1"),
-                    CreatedBy = "jkelly",
-                    Process = new Process
+                    CreatedBy = Environment.UserName,
+                    IssueProcesses = new List<IssueProcessXRef>()
                     {
-                        Name = "Select all From table",
-                        UsesScript = true
+                        new IssueProcessXRef
+                        {
+                            Process = _context.Processes.First(p => p.Name == "PRO-010-001"),
+                            Order = 1
+                        }
                     }
                 },
                 new Issue
@@ -183,11 +332,14 @@ namespace LeafFilter.HelpDesk.TestConsole
                     Name = "Issue-D-004",
                     Description = "Does a thing.",
                     IssueSeverity = _context.IssueSeverity.FirstOrDefault(s => s.Level == "S1"),
-                    CreatedBy = "jkelly",
-                    Process = new Process
+                    CreatedBy = Environment.UserName,
+                    IssueProcesses = new List<IssueProcessXRef>()
                     {
-                        Name = "Delect From table",
-                        UsesScript = true
+                        new IssueProcessXRef
+                        {
+                            Process = _context.Processes.First(p => p.Name == "PRO-010-001"),
+                            Order = 1
+                        }
                     }
                 },
                 new Issue
@@ -195,11 +347,14 @@ namespace LeafFilter.HelpDesk.TestConsole
                     Name = "Issue-C-005",
                     Description = "Does a thing.",
                     IssueSeverity = _context.IssueSeverity.FirstOrDefault(s => s.Level == "S1"),
-                    CreatedBy = "jkelly",
-                    Process = new Process
+                    CreatedBy = Environment.UserName,
+                    IssueProcesses = new List<IssueProcessXRef>()
                     {
-                        Name = "Update value From table",
-                        UsesScript = true
+                        new IssueProcessXRef
+                        {
+                            Process = _context.Processes.First(p => p.Name == "PRO-010-001"),
+                            Order = 1
+                        }
                     }
                 },
                 new Issue
@@ -207,11 +362,14 @@ namespace LeafFilter.HelpDesk.TestConsole
                     Name = "Issue-B-006",
                     Description = "Does a thing.",
                     IssueSeverity = _context.IssueSeverity.FirstOrDefault(s => s.Level == "S1"),
-                    CreatedBy = "jkelly",
-                    Process = new Process
+                    CreatedBy = Environment.UserName,
+                    IssueProcesses = new List<IssueProcessXRef>()
                     {
-                        Name = "Insert value into table",
-                        UsesScript = true
+                        new IssueProcessXRef
+                        {
+                            Process = _context.Processes.First(p => p.Name == "PRO-010-001"),
+                            Order = 1
+                        }
                     }
                 },
                 new Issue
@@ -219,37 +377,67 @@ namespace LeafFilter.HelpDesk.TestConsole
                     Name = "Issue-A-019",
                     Description = "Does a thing.",
                     IssueSeverity = _context.IssueSeverity.FirstOrDefault(s => s.Level == "S1"),
-                    CreatedBy = "jkelly",
-                    Process = new Process
+                    CreatedBy = Environment.UserName,
+                    IssueProcesses = new List<IssueProcessXRef>()
                     {
-                        Name = "Select results From table",
-                        UsesScript = true
+                        new IssueProcessXRef
+                        {
+                            Process = _context.Processes.First(p => p.Name == "PRO-010-001"),
+                            Order = 1
+                        }
                     }
                 }
             };
             _context.AddRange(issues);
             _context.SaveChanges();
         }
-
-        private static void AddIssuesToTickets()
-        {  
-            _context.Tickets.First(t => t.Name == "Ticket-ACD-s11")
-                .TicketIssues.Add(new TicketIssue
-                {
-                    Issue = _context.Issues.First(i => i.Name == "Issue-A-001")
-                });
-
-            _context.Tickets.First(t => t.Name == "Ticket-AB-s11")
-                .TicketIssues.Add(new TicketIssue
-                {
-                    Issue = _context.Issues.First(i => i.Name == "Issue-F-003")
-                });
-
-            _context.Tickets.First(t => t.Name == "Ticket-AB-091")
-                .TicketIssues.Add(new TicketIssue
-                {
-                    Issue = _context.Issues.First(i => i.Name == "Issue-A-001")
-                });
+        private static void CreateMultipleTickets()
+        {
+            var tickets = new List<Ticket>()
+            {
+                new Ticket {
+                    Name = "Ticket-ACD-s11",
+                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "gweber"),
+                    AssignedTo = _context.Users.FirstOrDefault(u => u.UserName == "jkelly"),
+                    Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "New"),
+                    CreatedBy = Environment.UserName,
+                    TicketIssues = new List<TicketIssueXRef>()
+                    {
+                        new TicketIssueXRef
+                        {
+                            Issue = _context.Issues.First(i => i.Name == "Issue-A-001")
+                        }
+                    }
+                },
+                new Ticket {
+                    Name = "Ticket-AB-s11",
+                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jsmith"),
+                    AssignedTo = _context.Users.FirstOrDefault(u => u.UserName == "mbarker"),
+                    Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Pending"),
+                    CreatedBy = Environment.UserName,
+                    TicketIssues = new List<TicketIssueXRef>()
+                    {
+                        new TicketIssueXRef
+                        {
+                            Issue = _context.Issues.First(i => i.Name == "Issue-F-003")
+                        }
+                    }
+                },
+                new Ticket {
+                    Name = "Ticket-AB-091",
+                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jsmith"),     
+                    Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Pending"),
+                    CreatedBy = Environment.UserName,
+                    TicketIssues = new List<TicketIssueXRef>()
+                    {
+                        new TicketIssueXRef
+                        {
+                            Issue = _context.Issues.First(i => i.Name == "Issue-A-001")
+                        }
+                    }
+                },
+            };
+            _context.AddRange(tickets);
             _context.SaveChanges();
         }
     }
