@@ -32,16 +32,35 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel
             }
         }
 
+        public RelayCommand AddTicketCommand { get; private set; }
+        public RelayCommand SaveTicketCommand { get; private set; }
         public RelayCommand DeleteCommand { get; private set; }
+
+        public event Action<Ticket> AddTicketRequested = delegate { };
 
         public TicketListViewModel()
         {
             if (DesignerProperties.GetIsInDesignMode(
                 new System.Windows.DependencyObject())) return;
 
+            AddTicketCommand = new RelayCommand(OnAddTicket);
+            SaveTicketCommand = new RelayCommand(OnSaveTickets);
             DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 
             Tickets = new ObservableCollection<Ticket>(Task.Run(() => _repository.GetAllTicketsAsync()).Result);
+        }
+
+        
+        private void OnAddTicket()
+        {
+            SelectedTicket = Task.Run(() => _repository.CreateNewTicketAsync()).Result;
+            Tickets.Add(SelectedTicket);
+        }
+
+        private void OnSaveTickets()
+        {
+            var result = Task.Run(() => _repository.SaveTicketsAsync()).Result;
+            return;
         }
 
         private void OnDelete()

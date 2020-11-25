@@ -5,32 +5,45 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:LeafFilter.HelpDesk.TrackerApp"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="800"
+             d:DesignHeight="147.932" d:DesignWidth="600"
              vm:ViewModelLocator.AutoWireViewModel="True">
-    <Grid>
+    <Grid Height="148" VerticalAlignment="Center" Margin="0,0,-110,0">
         <DataGrid x:Name="processDataGrid"
                   AutoGenerateColumns="False"
                   EnableRowVirtualization="True"
                   ItemsSource="{Binding Tickets}"
-                  RowDetailsVisibilityMode="VisibleWhenSelected"
-                  Margin="0,0,0,3">
+                  RowDetailsVisibilityMode="VisibleWhenSelected" Height="108" VerticalAlignment="Top"
+                  ScrollViewer.CanContentScroll= "True">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Name}"
                                     Header="Name"
-                                    Width="SizeToHeader"/>
-                <DataGridTextColumn Binding="{Binding RequestedBy.FirstName}"
+                                    Width="SizeToCells"/>
+                <DataGridTextColumn Binding="{Binding RequestedBy.UserName, Mode=TwoWay}"                                    
                                     Header="Requested By"
                                     Width="SizeToHeader"/>
-                <DataGridTextColumn Binding="{Binding AssignedTo.FirstName}"
+                <!--<DataGridTextColumn Binding="{Binding RequestedBy.LastName}"
+                                    Header="Requested By Last"
+                                    Width="SizeToHeader"/>-->
+                <DataGridTextColumn Binding="{Binding AssignedTo.UserName, Mode=TwoWay}"
                                     Header="Assigned To"
                                     Width="SizeToHeader"/>
-                <DataGridTextColumn Binding="{Binding Status.Name}"
+                <!--<DataGridTextColumn Binding="{Binding AssignedTo.LastName}"
+                                    Header="Assigned To Last"
+                                    Width="SizeToHeader"/>-->
+                <DataGridTextColumn Binding="{Binding Status.Name, Mode=TwoWay}"
                                     Header="Status"
-                                    Width="SizeToHeader"/>
-                <DataGridTextColumn Binding="{Binding DateOpened}"
+                                    Width="SizeToCells"/>
+                <DataGridTextColumn Binding="{Binding DateOpened, Mode=TwoWay}"
                                     Header="Date Opened"
+                                    Width="SizeToHeader"/>
+                <DataGridTextColumn Binding="{Binding DateResolved, Mode=TwoWay}"
+                                    Header="Date Resolved"
                                     Width="SizeToHeader"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Button Content="New Ticket" 
+                Command="{Binding AddTicketCommand}" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Width="70"/>
+        <Button Content="Save" 
+            Command="{Binding SaveTicketCommand}" HorizontalAlignment="Left" Margin="630,118,0,0" VerticalAlignment="Top" Width="70"/>
     </Grid>
 </UserControl>

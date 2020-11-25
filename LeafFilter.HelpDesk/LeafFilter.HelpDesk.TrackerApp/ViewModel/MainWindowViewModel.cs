@@ -3,17 +3,17 @@
     public class MainWindowViewModel
     {
         //public object CurrentViewModel { get; set; }
-        public object TopViewModel { get; set; }
-        public object BottomViewModel { get; set; }
-        public object CenterAViewModel { get; set; }
-        public object CenterBViewModel { get; set; }
+        public object UserViewModel { get; set; }
+        public object ProcessViewModel { get; set; }
+        public object TicketViewModel { get; set; }
+        public object IssueViewModel { get; set; }
 
         public MainWindowViewModel()
         {
-            TopViewModel = new UserListViewModel();
-            CenterAViewModel = new TicketListViewModel();
-            CenterBViewModel = new IssueListViewModel();
-            BottomViewModel = new ProcessListViewModel();
+            UserViewModel = new UserListViewModel();
+            TicketViewModel = new TicketListViewModel();
+            IssueViewModel = new IssueListViewModel();
+            ProcessViewModel = new ProcessListViewModel();
         }
     }
 }

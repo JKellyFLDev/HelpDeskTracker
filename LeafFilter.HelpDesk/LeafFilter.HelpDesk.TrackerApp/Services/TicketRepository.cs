@@ -15,7 +15,20 @@ namespace LeafFilter.HelpDesk.TrackerApp.Services
 
         public async Task<List<Ticket>> GetAllTicketsAsync()
         {
-            return await _context.Tickets.ToListAsync();
+            var tickets = await _context.Tickets.ToListAsync();
+            tickets.ForEach(x => x = LoadTicket(x.Id));
+
+            return tickets;
+        }        
+
+        public Ticket LoadTicket(Guid ticketId)
+        {
+            var ticket = _context.Tickets.Find(ticketId);
+            _context.Entry(ticket).Reference(u => u.AssignedTo).Load();
+            _context.Entry(ticket).Reference(u => u.RequestedBy).Load();
+            _context.Entry(ticket).Reference(s => s.Status).Load();
+
+            return ticket;
         }
 
         public async Task<Ticket> GetTicketAsync(Guid ticketId)
@@ -23,11 +36,30 @@ namespace LeafFilter.HelpDesk.TrackerApp.Services
             return await _context.Tickets.FirstOrDefaultAsync(x => x.Id == ticketId);
         }
 
-        public async Task<Ticket> AddProcessAsync(Ticket ticket)
+
+        public async Task<Ticket> CreateNewTicketAsync()
+        {
+            var ticket = new Ticket
+            {
+                Name = "TempName",
+                Status = await _context.TicketStatus.FirstOrDefaultAsync(x => x.Name == "New"),
+                DateOpened = DateTime.Now,
+                CreatedBy = Environment.UserName
+            };
+            _context.Tickets.Add(ticket);
+            return ticket;
+        }
+
+        public async Task<Ticket> AddTicketAsync(Ticket ticket)
         {
             _context.Tickets.Add(ticket);
             await _context.SaveChangesAsync();
             return ticket;
+        }
+
+        public async Task<int> SaveTicketsAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<Ticket> UpdateTicketAsync(Ticket ticket)
