@@ -42,7 +42,8 @@ namespace LeafFilter.HelpDesk.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 #if DEBUG
-            var connectionString = "Server=localhost; Initial Catalog=HelpDeskDB; Integrated Security=SSPI";
+            //var connectionString = "Server=localhost; Initial Catalog=HelpDeskDB; Integrated Security=SSPI";
+            var connectionString = ConfigurationManager.ConnectionStrings["LocalDatabase"].ToString();
             //var connectionString = "Server=LF942\\MSSQLSERVERLOCAL; Initial Catalog=HelpDeskData; Integrated Security=SSPI";
 #elif RELEASE
             var connectionString = ConfigurationManager.ConnectionStrings["LocalDatabase"].ToString();

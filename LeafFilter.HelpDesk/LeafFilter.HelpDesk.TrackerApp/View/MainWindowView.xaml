@@ -1,0 +1,20 @@
+﻿<Window x:Class="LeafFilter.HelpDesk.TrackerApp.View.MainWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
+        xmlns:view="clr-namespace:LeafFilter.HelpDesk.TrackerApp.View"
+        xmlns:viewModel="clr-namespace:LeafFilter.HelpDesk.TrackerApp.ViewModel"
+        xmlns:vm="clr-namespace:LeafFilter.HelpDesk.TrackerApp"
+        mc:Ignorable="d"
+        Title="MainWindowView" Height="450" Width="800"
+        vm:ViewModelLocator.AutoWireViewModel="True">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:UserListViewModel}">
+            <view:UserListView />
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <ContentControl Content="{Binding CurrentViewModel}"/>
+    </Grid>
+</Window>

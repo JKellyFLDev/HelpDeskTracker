@@ -86,7 +86,7 @@ namespace LeafFilter.HelpDesk.TestConsole
                 new TicketStatus { Name = "New",            CreatedBy = Environment.UserName},
                 new TicketStatus { Name = "Pending",        CreatedBy = Environment.UserName},
                 new TicketStatus { Name = "In-Progress",    CreatedBy = Environment.UserName},
-                new TicketStatus { Name = "Done",           CreatedBy = Environment.UserName},
+                new TicketStatus { Name = "Resolved",       CreatedBy = Environment.UserName},
                 new TicketStatus { Name = "Canceled",       CreatedBy = Environment.UserName}
             };
             _context.AddRange(ticketStatuses);
