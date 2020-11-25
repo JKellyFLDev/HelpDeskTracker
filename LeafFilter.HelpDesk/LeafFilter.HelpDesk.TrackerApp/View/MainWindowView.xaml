@@ -7,14 +7,62 @@
         xmlns:viewModel="clr-namespace:LeafFilter.HelpDesk.TrackerApp.ViewModel"
         xmlns:vm="clr-namespace:LeafFilter.HelpDesk.TrackerApp"
         mc:Ignorable="d"
-        Title="MainWindowView" Height="450" Width="800"
+        Title="MainWindowView" Height="400" Width="800"
         vm:ViewModelLocator.AutoWireViewModel="True">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:UserListViewModel}">
             <view:UserListView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:TicketListViewModel}">
+            <view:TicketListView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:IssueListViewModel}">
+            <view:IssueListView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ProcessListViewModel}">
+            <view:ProcessListView />
+        </DataTemplate>
     </Window.Resources>
-    <Grid>
-        <ContentControl Content="{Binding CurrentViewModel}"/>
+    <Grid Margin="0,-1,0,1">
+        <Label Content="Users" HorizontalAlignment="Left" Margin="632,10,0,0" VerticalAlignment="Top"/>
+        <Grid Margin="528,40,26,193">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ContentControl Content="{Binding TopViewModel}"/>
+        </Grid>
+        <Label Content="Processes" HorizontalAlignment="Left" Margin="632,192,0,0" VerticalAlignment="Top"/>
+        <Grid Margin="528,223,26,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ContentControl Content="{Binding BottomViewModel}"/>
+        </Grid>
+        <Label Content="Tickets" HorizontalAlignment="Left" Margin="246,10,0,0" VerticalAlignment="Top" Width="89"/>
+        <Grid Margin="10,40,231,193">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ContentControl Content="{Binding CenterAViewModel}"/>
+        </Grid>
+        <Label Content="Issues" HorizontalAlignment="Left" Margin="247,193,0,0" VerticalAlignment="Top" Width="89"/>
+        <Grid Margin="11,223,230,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ContentControl Content="{Binding CenterBViewModel}"/>
+        </Grid>
     </Grid>
 </Window>

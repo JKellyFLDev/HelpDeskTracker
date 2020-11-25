@@ -11,13 +11,44 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel
     {
         private IProcessRepository _repository = new ProcessRepository();
 
-        public ObservableCollection<Process> Processes { get; set; }
+        private ObservableCollection<Process> _processes;
+        public ObservableCollection<Process> Processes
+        {
+            get { return _processes; }
+            set { _processes = value; }
+        }
+
+        private Process _selectedProcess;
+        public Process SelectedProcess
+        {
+            get { return _selectedProcess; }
+            set
+            {
+                _selectedProcess = value;
+                DeleteCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        public RelayCommand DeleteCommand { get; private set; }
 
         public ProcessListViewModel()
         {
             if (DesignerProperties.GetIsInDesignMode(
                 new System.Windows.DependencyObject())) return;
+
+            DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+
             Processes = new ObservableCollection<Process>(Task.Run(() => _repository.GetAllProcessesAsync()).Result);
+        }
+
+        private void OnDelete()
+        {
+            Processes.Remove(SelectedProcess);
+        }
+
+        private bool CanDelete()
+        {
+            return SelectedProcess != null;
         }
     }
 }

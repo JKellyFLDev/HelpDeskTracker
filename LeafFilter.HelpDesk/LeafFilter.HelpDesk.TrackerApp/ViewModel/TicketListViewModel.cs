@@ -14,13 +14,44 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel
     {
         private ITicketRepository _repository = new TicketRepository();
 
-        public ObservableCollection<Ticket> Tickets { get; set; }
+        private ObservableCollection<Ticket> _tickets;
+        public ObservableCollection<Ticket> Tickets
+        {
+            get { return _tickets; }
+            set { _tickets = value; }
+        }
+
+        private Ticket _selectedTicket;
+        public Ticket SelectedTicket
+        {
+            get { return _selectedTicket; }
+            set
+            {
+                _selectedTicket = value;
+                DeleteCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        public RelayCommand DeleteCommand { get; private set; }
 
         public TicketListViewModel()
         {
             if (DesignerProperties.GetIsInDesignMode(
                 new System.Windows.DependencyObject())) return;
+
+            DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+
             Tickets = new ObservableCollection<Ticket>(Task.Run(() => _repository.GetAllTicketsAsync()).Result);
+        }
+
+        private void OnDelete()
+        {
+            Tickets.Remove(SelectedTicket);
+        }
+
+        private bool CanDelete()
+        {
+            return SelectedTicket != null;
         }
     }
 }
