@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 
-namespace LeafFilter.HelpDesk.TrackerApp
+namespace LeafFilter.HelpDesk.TrackerApp.Utilities
 {
     public static class ViewModelLocator
     {
@@ -24,11 +26,11 @@ namespace LeafFilter.HelpDesk.TrackerApp
         private static void AutoWireViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (DesignerProperties.GetIsInDesignMode(d)) return;
-            var viewType = d.GetType();            
-            var viewModelTypeName = viewType.Namespace + "Model." + viewType.Name + "Model";
-            var viewModelType = Type.GetType(viewModelTypeName);
-            var viewModel = Activator.CreateInstance(viewModelType);
-            ((FrameworkElement)d).DataContext = viewModel;            
+            
+            var viewModelType = new List<string>();
+            d.GetType().FullName.Split(".").ToList()
+                .ForEach(x => viewModelType.Add(x.Replace("View", "ViewModel")));            
+            ((FrameworkElement)d).DataContext = Activator.CreateInstance(Type.GetType(String.Join(".", viewModelType.ToArray())));            
         }        
     }
 }

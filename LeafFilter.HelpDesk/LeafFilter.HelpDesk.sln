@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeafFilter.HelpDesk.TrackerApp", "LeafFilter.HelpDesk.TrackerApp\LeafFilter.HelpDesk.TrackerApp.csproj", "{C88D0069-0C5F-40F1-9D64-BCAF35572590}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafFilter.HelpDesk.TrackerApp", "LeafFilter.HelpDesk.TrackerApp\LeafFilter.HelpDesk.TrackerApp.csproj", "{C88D0069-0C5F-40F1-9D64-BCAF35572590}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeafFilter.HelpDesk.Models", "LeafFilter.HelpDesk.Models\LeafFilter.HelpDesk.Models.csproj", "{2E68984C-0F08-40E2-9713-7CA878256930}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafFilter.HelpDesk.Models", "LeafFilter.HelpDesk.Models\LeafFilter.HelpDesk.Models.csproj", "{2E68984C-0F08-40E2-9713-7CA878256930}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeafFilter.HelpDesk.Data", "LeafFilter.HelpDesk.Data\LeafFilter.HelpDesk.Data.csproj", "{D83359D0-D4E3-4E34-AC54-E50C7D646856}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafFilter.HelpDesk.Data", "LeafFilter.HelpDesk.Data\LeafFilter.HelpDesk.Data.csproj", "{D83359D0-D4E3-4E34-AC54-E50C7D646856}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeafFilter.HelpDesk.TestConsole", "LeafFilter.HelpDesk.TestConsole\LeafFilter.HelpDesk.TestConsole.csproj", "{3AADFB11-4E5E-4795-B24B-AAC02B37E2E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafFilter.HelpDesk.TestConsole", "LeafFilter.HelpDesk.TestConsole\LeafFilter.HelpDesk.TestConsole.csproj", "{3AADFB11-4E5E-4795-B24B-AAC02B37E2E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

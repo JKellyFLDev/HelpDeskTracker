@@ -1,12 +1,13 @@
 ﻿using LeafFilter.HelpDesk.Models.Records;
 using LeafFilter.HelpDesk.TrackerApp.Services;
 using LeafFilter.HelpDesk.TrackerApp.Services.Interfaces;
+using LeafFilter.HelpDesk.TrackerApp.Utilities;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace LeafFilter.HelpDesk.TrackerApp.ViewModel
+namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.UserViewModel
 {
     public class UserListViewModel
     {       

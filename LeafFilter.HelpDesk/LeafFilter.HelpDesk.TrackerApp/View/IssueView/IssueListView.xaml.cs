@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace LeafFilter.HelpDesk.TrackerApp.View
+namespace LeafFilter.HelpDesk.TrackerApp.View.IssueView
 {
     /// <summary>
     /// Interaction logic for IssueListView.xaml

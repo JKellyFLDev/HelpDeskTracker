@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LeafFilter.HelpDesk.TrackerApp.Services.Interfaces
 {
-    public interface IProcessRepository
+    public interface IProcessRepository : IRepository
     {
         Task<List<Process>> GetAllProcessesAsync();
         Task<Process> GetProcessAsync(Guid processId);

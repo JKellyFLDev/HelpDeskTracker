@@ -27,7 +27,7 @@ namespace LeafFilter.HelpDesk.TrackerApp.Services
             _context.Entry(ticket).Reference(u => u.AssignedTo).Load();
             _context.Entry(ticket).Reference(u => u.RequestedBy).Load();
             _context.Entry(ticket).Reference(s => s.Status).Load();
-
+            _context.Entry(ticket).Collection(i => i.TicketIssues).Load();
             return ticket;
         }
 

@@ -1,54 +1,55 @@
 ﻿using LeafFilter.HelpDesk.Models.Records;
 using LeafFilter.HelpDesk.TrackerApp.Services;
 using LeafFilter.HelpDesk.TrackerApp.Services.Interfaces;
+using LeafFilter.HelpDesk.TrackerApp.Utilities;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace LeafFilter.HelpDesk.TrackerApp.ViewModel
+namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.IssueViewModel
 {
-    public class ProcessListViewModel
+    public class IssueListViewModel
     {
-        private IProcessRepository _repository = new ProcessRepository();
+        private IIssueRepository _repository = new IssueRepository();
 
-        private ObservableCollection<Process> _processes;
-        public ObservableCollection<Process> Processes
+        private ObservableCollection<Issue> _issues;
+        public ObservableCollection<Issue> Issues
         {
-            get { return _processes; }
-            set { _processes = value; }
+            get { return _issues; }
+            set { _issues = value; }
         }
 
-        private Process _selectedProcess;
-        public Process SelectedProcess
+        private Issue _selectedIssue;
+        public Issue SelectedIssue
         {
-            get { return _selectedProcess; }
+            get { return _selectedIssue; }
             set
             {
-                _selectedProcess = value;
+                _selectedIssue = value;
                 DeleteCommand.RaiseCanExecuteChanged();
             }
         }
 
         public RelayCommand DeleteCommand { get; private set; }
 
-        public ProcessListViewModel()
+        public IssueListViewModel()
         {
             if (DesignerProperties.GetIsInDesignMode(
                 new System.Windows.DependencyObject())) return;
 
             DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 
-            Processes = new ObservableCollection<Process>(Task.Run(() => _repository.GetAllProcessesAsync()).Result);
+            Issues = new ObservableCollection<Issue>(Task.Run(() => _repository.GetAllIssuesAsync()).Result);
         }
 
         private void OnDelete()
         {
-            Processes.Remove(SelectedProcess);
+            Issues.Remove(SelectedIssue);
         }
 
         private bool CanDelete()
         {
-            return SelectedProcess != null;
+            return SelectedIssue != null;
         }
     }
 }

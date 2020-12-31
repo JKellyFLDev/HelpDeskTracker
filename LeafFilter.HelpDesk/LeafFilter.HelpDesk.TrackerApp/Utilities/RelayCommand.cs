@@ -1,14 +1,17 @@
-﻿using System;
+﻿using LeafFilter.HelpDesk.TrackerApp.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 
-namespace LeafFilter.HelpDesk.TrackerApp
+namespace LeafFilter.HelpDesk.TrackerApp.Utilities
 {
-    public class RelayCommand : ICommand
+    public interface IRelayCommand : ICommand { }
+
+    public class RelayCommand : IRelayCommand
     {
-        Action _TargetExecuteMethod;
-        Func<bool> _TargetCanExecuteMethod;
+        private Action _TargetExecuteMethod;
+        private Func<bool> _TargetCanExecuteMethod;
 
         public RelayCommand(Action executeMethod)
         {
@@ -28,7 +31,8 @@ namespace LeafFilter.HelpDesk.TrackerApp
 
         #region ICommand Members        
         public event EventHandler CanExecuteChanged = delegate { };
-        bool ICommand.CanExecute(object parameter)
+
+        public bool CanExecute(object parameter)
         {
             if (_TargetCanExecuteMethod != null)
             {
@@ -41,7 +45,7 @@ namespace LeafFilter.HelpDesk.TrackerApp
             return false;
         }
 
-        void ICommand.Execute(object parameter)
+        public void Execute(object parameter)
         {
             if (_TargetExecuteMethod != null)
             {
@@ -51,10 +55,10 @@ namespace LeafFilter.HelpDesk.TrackerApp
         #endregion     
     }
 
-    public class RelayCommand<T> : ICommand
+    public class RelayCommand<T> : IRelayCommand
     {
-        Action<T> _TargetExecuteMethod;
-        Func<T, bool> _TargetCanExecuteMethod;
+        private Action<T> _TargetExecuteMethod;
+        private Func<T, bool> _TargetCanExecuteMethod;
 
         public RelayCommand(Action<T> executeMethod)
         {
@@ -74,6 +78,7 @@ namespace LeafFilter.HelpDesk.TrackerApp
 
         #region ICommand Members
         public event EventHandler CanExecuteChanged = delegate { };
+
         public bool CanExecute(object parameter)
         {
 

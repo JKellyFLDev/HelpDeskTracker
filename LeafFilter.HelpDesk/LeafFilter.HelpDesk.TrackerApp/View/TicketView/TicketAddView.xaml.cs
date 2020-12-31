@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace LeafFilter.HelpDesk.TrackerApp.View
+namespace LeafFilter.HelpDesk.TrackerApp.View.TicketView
 {
     /// <summary>
-    /// Interaction logic for UserListView.xaml
+    /// Interaction logic for TicketAddView.xaml
     /// </summary>
-    public partial class UserListView : UserControl
+    public partial class TicketAddView : UserControl
     {
-        public UserListView()
+        public TicketAddView()
         {
             InitializeComponent();
         }

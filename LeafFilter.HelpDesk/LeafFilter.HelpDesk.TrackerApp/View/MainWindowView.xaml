@@ -3,66 +3,130 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
-        xmlns:view="clr-namespace:LeafFilter.HelpDesk.TrackerApp.View"
-        xmlns:viewModel="clr-namespace:LeafFilter.HelpDesk.TrackerApp.ViewModel"
-        xmlns:vm="clr-namespace:LeafFilter.HelpDesk.TrackerApp"
-        mc:Ignorable="d"
-        Title="MainWindowView" Height="602" Width="994"
-        vm:ViewModelLocator.AutoWireViewModel="True">
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:utilities="clr-namespace:LeafFilter.HelpDesk.TrackerApp.Utilities"                  
+        utilities:ViewModelLocator.AutoWireViewModel="True"
+        mc:Ignorable="d"                
+        AutomationProperties.Name="{Binding Title, RelativeSource={RelativeSource Self}}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"        
+        FontFamily="{materialDesign:MaterialDesignFont}"        
+        Title="Help Desk Tracker" Height="800" Width="1100">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type viewModel:UserListViewModel}">
-            <view:UserListView />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:TicketListViewModel}">
-            <view:TicketListView />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:IssueListViewModel}">
-            <view:IssueListView />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:ProcessListViewModel}">
-            <view:ProcessListView />
-        </DataTemplate>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
-    <Grid Margin="0,-1,0,1">
-        <Label Content="Users" HorizontalAlignment="Left" Margin="833,14,0,0" VerticalAlignment="Top" />
-        <Grid Margin="720,40,10,293">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <ContentControl Content="{Binding UserViewModel}"/>
-        </Grid>
-        <!--<Label Content="Processes" HorizontalAlignment="Left" Margin="10,467,0,0" VerticalAlignment="Top"/>
-        <Grid Margin="122,434,10,41">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <ContentControl Content="{Binding ProcessViewModel}"/>
-        </Grid>-->
-        <Label Content="Tickets" HorizontalAlignment="Left" Margin="318,14,0,0" VerticalAlignment="Top" Width="88"/>
-        <Grid Margin="10,40,279,293">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <ContentControl Content="{Binding TicketViewModel}" />
-        </Grid>
-        <Label Content="Issues" HorizontalAlignment="Left" Margin="10,336,0,0" VerticalAlignment="Top" Width="89"/>
-        <Grid Margin="122,298,10,177">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <ContentControl Content="{Binding IssueViewModel}"/>
-        </Grid>
-    </Grid>
+
+    <materialDesign:DialogHost
+        Identifier="RootDialog"
+        DialogTheme="Inherit">
+        <materialDesign:DrawerHost
+            IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <DockPanel MinWidth="220">
+                    <ToggleButton 
+                        Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                        DockPanel.Dock="Top"
+                        HorizontalAlignment="Right"
+                        Margin="16"
+                        IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}"/>
+                    <TextBlock
+                        x:Name="HelpDeskSearchBox"
+                        Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"
+                        DockPanel.Dock="Top"
+                        Margin="16,4"
+                        Width="200"
+                        materialDesign:HintAssist.Hint="Search"
+                        materialDesign:HintAssist.IsFloating="True"/>
+                    <ListBox
+                        x:Name="HelpDeskItemListBox"
+                        Margin="0,16,0,16"
+                        SelectedIndex="{Binding SelectedIndex}"
+                        SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
+                        ItemsSource="{Binding HelpDeskItems}"
+                        PreviewMouseLeftButtonUp="HelpDeskItemListBox_PreviewMouseLeftButtonUp"
+                        AutomationProperties.Name="HelpDeskPagesListBox">
+                        <ListBox.Resources>
+                            <Style TargetType="ScrollBar" BasedOn="{StaticResource MaterialDesignScrollBarMinimal}"/>
+                        </ListBox.Resources>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="utilities:HelpDeskItem">
+                                <TextBlock Text="{Binding Name}" Margin="32,0,32,0" AutomationProperties.AutomationId="HelpDeskItemPage"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+
+            <DockPanel>
+                <materialDesign:ColorZone
+                    Padding="16"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                    Mode="PrimaryMid"
+                    DockPanel.Dock="Top">
+                    <DockPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <ToggleButton
+                                x:Name="MenuToggleButton"
+                                Style="{StaticResource MaterialDesignHamburgerToggleButton}"/>
+                        </StackPanel>
+                        <materialDesign:PopupBox
+                            DockPanel.Dock="Right"
+                            PlacementMode="BottomAndAlignRightEdges"
+                            StaysOpen="False">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                                    <TextBlock 
+                                        Text="Light" 
+                                        Margin="0,0,10,0"/>
+                                    <ToggleButton 
+                                        x:Name="LightModeToggleButton"
+                                        Click="MenuLightModeButton_Click"/>
+                                    <TextBlock
+                                        Text="Dark"
+                                        Margin="10,0,0,0"/>
+                                </StackPanel>
+                                <Separator/>
+                                <Button x:Name="MenuImportButton" Content="Import" Click="MenuImportButton_OnClick"/>
+                                <Button x:Name="MenuExportButton" Content="Export" Click="MenuExportButton_OnClick"/>
+                                <Button x:Name="MenuSaveButton" Content="Save All" Click="MenuSaveButton_OnClick"/>
+                                <Separator/>
+                                <Button x:Name="MenuExitButton" Content="Goodbye" Click="MenuQuitButton_OnClick"/>
+                            </StackPanel>
+                        </materialDesign:PopupBox>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="22"
+                            AutomationProperties.Name="HelpDeskTrackerTitle"
+                            Text="Help Desk Tracker Application"/>
+                    </DockPanel>
+                </materialDesign:ColorZone>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <ScrollViewer 
+                        Grid.Row="1"
+                        materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True"
+                        HorizontalScrollBarVisibility="{Binding ElementName=HelpDeskItemListBox, Path=SelectedItem.HorizontalScrollBarVisibilityRequirement}"
+                        VerticalScrollBarVisibility="{Binding ElementName=HelpDeskItemListBox, Path=SelectedItem.VerticalScrollBarVisibilityRequirement}"
+                        Padding="{Binding ElementName=HelpDeskItemListBox, Path=SelectedItem.MarginRequirement}">
+                        <ContentControl Width="Auto" Content="{Binding SelectedItem.Content, UpdateSourceTrigger=PropertyChanged}"/>
+                    </ScrollViewer>
+                </Grid>
+            </DockPanel>
+        </materialDesign:DrawerHost>
+    </materialDesign:DialogHost>
 </Window>

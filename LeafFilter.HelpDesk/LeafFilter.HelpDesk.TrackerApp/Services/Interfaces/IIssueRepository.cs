@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LeafFilter.HelpDesk.TrackerApp.Services.Interfaces
 {
-    public interface IIssueRepository
+    public interface IIssueRepository : IRepository
     {
         Task<List<Issue>> GetAllIssuesAsync();
         Task<Issue> GetIssueAsync(Guid issueId);

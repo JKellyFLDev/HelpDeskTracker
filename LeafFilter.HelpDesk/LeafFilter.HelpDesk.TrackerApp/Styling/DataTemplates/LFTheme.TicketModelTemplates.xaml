@@ -1,0 +1,47 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <DataTemplate x:Key="TicketNameTextBlock">
+        <TextBlock HorizontalAlignment="Center" Width="Auto" Text="{Binding Name}"/>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="RequestedByNameTextBlock">
+        <TextBlock HorizontalAlignment="Center" Width="Auto">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0} {1}">
+                    <Binding Path="RequestedBy.FirstName"/>
+                    <Binding Path="RequestedBy.LastName"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+    </DataTemplate>
+
+    <DataTemplate x:Key="AssignedToNameTextBlock">
+        <TextBlock HorizontalAlignment="Center" Width="Auto">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0} {1}">
+                    <Binding Path="AssignedTo.FirstName"/>
+                    <Binding Path="AssignedTo.LastName"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+    </DataTemplate>
+
+    <DataTemplate x:Key="OpenedTextBlock">
+        <TextBlock HorizontalAlignment="Center" Width="Auto" Text="{Binding DateOpened}"/>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="ResolvedTextBlock">
+        <TextBlock HorizontalAlignment="Center" Width="Auto" Text="{Binding DateResolved}"/>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="StatusTextBlock">
+        <TextBlock HorizontalAlignment="Center" Width="Auto" Text="{Binding Status.Name}"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="IssueCountTextBlock">
+        <TextBlock HorizontalAlignment="Center" Width="Auto" Text="{Binding TicketIssues.Count}"/>
+    </DataTemplate>
+
+</ResourceDictionary>   
