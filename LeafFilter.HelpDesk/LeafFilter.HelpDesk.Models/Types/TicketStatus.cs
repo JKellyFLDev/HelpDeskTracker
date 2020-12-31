@@ -7,6 +7,7 @@ namespace LeafFilter.HelpDesk.Models.Types
     {       
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public int Order { get; set; }
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }

@@ -19,6 +19,8 @@ namespace LeafFilter.HelpDesk.Models.Records
         public string Email { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
+        public DateTime? ModifiedDate { get; set; }
+        public string ModifiedBy { get; set; }
         public bool Active { get;set; }
         public List<UserAppPermissionXRef> UserAppPermissions { get; set; }
     }

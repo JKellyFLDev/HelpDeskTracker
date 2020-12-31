@@ -31,4 +31,5 @@ INSERT INTO dbo.AppPermission (Name,CreatedBy,Description)
 VALUES
         ('Admin',       @User, 'Access to all actions and processes'),
         ('User',        @User, 'Access to select number of actions and processes'),
-        ('Requester',   @User, 'No access granted to'),        
+        ('Requester',   @User, 'No access granted to')
+        `
