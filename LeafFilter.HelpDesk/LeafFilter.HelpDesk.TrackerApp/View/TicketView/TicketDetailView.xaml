@@ -2,11 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"              
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:utilities="clr-namespace:LeafFilter.HelpDesk.TrackerApp.Utilities"
              utilities:ViewModelLocator.AutoWireViewModel="True"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
@@ -15,7 +15,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding SelectedTicket.Name}" 
+        <TextBlock Text="{Binding SelectedTicket.Name}"
                    Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                    Padding="10" Grid.Row="0"/>
         <ProgressBar Value="{Binding Progress}" Margin="5" materialDesign:TransitionAssist.DisableTransitions="True"
@@ -30,8 +30,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid                             
-                HorizontalAlignment="Stretch"                
+            <Grid
+                HorizontalAlignment="Stretch"
                 Margin="20" Grid.Column="0" Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -42,19 +42,28 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Content="Assigned To:" Grid.Column="0" Grid.Row="0"/>
-                <TextBox Grid.Column="1" Grid.Row="0">
-                    <TextBox.Text>
-                        <MultiBinding StringFormat="{}{0} {1}">
-                            <Binding Path="SelectedTicket.AssignedTo.FirstName"/>
-                            <Binding Path="SelectedTicket.AssignedTo.LastName"/>
-                        </MultiBinding>
-                    </TextBox.Text>
-                </TextBox>
-                <Label Content="Requested By:" Grid.Column="0" Grid.Row="1"/>
-                <ComboBox Grid.Column="1" Grid.Row="1"                  
+                <ComboBox Grid.Column="1" Grid.Row="1"
                           ItemsSource="{Binding Users, Mode=TwoWay}"
-                          SelectedItem="{Binding SelectedTicket.RequestedBy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                          
-                          SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                          SelectedItem="{Binding SelectedTicket.AssignedTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedIndex="{Binding SelectedIndexAssigned, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} {1}">
+                                        <Binding Path="FirstName"/>
+                                        <Binding Path="LastName"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Label Content="Requested By:" Grid.Column="0" Grid.Row="1"/>
+                <ComboBox Grid.Column="1" Grid.Row="1"
+                          ItemsSource="{Binding Users, Mode=TwoWay}"
+                          SelectedItem="{Binding SelectedTicket.RequestedBy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedIndex="{Binding SelectedIndexRequested, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock>
@@ -69,7 +78,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </Grid>
-            <Grid                 
+            <Grid
                 HorizontalAlignment="Stretch"
                 Margin="20" Grid.Column="1" Grid.Row="0">
                 <Grid.ColumnDefinitions>
@@ -85,15 +94,15 @@
                        VerticalContentAlignment="Center"
                        Grid.Column="0" Grid.Row="0"/>
                 <DatePicker
-                    IsEnabled="False"                    
-                    HorizontalContentAlignment="Center"                               
+                    IsEnabled="False"
+                    HorizontalContentAlignment="Center"
                     Text="{Binding SelectedTicket.DateOpened}" Grid.Column="1" Grid.Row="0"/>
                 <Label Content="Resolved:"
                        HorizontalAlignment="Right"
                        VerticalContentAlignment="Center"
                        Grid.Column="0" Grid.Row="1"/>
-                <DatePicker             
-                    HorizontalContentAlignment="Center"                    
+                <DatePicker
+                    HorizontalContentAlignment="Center"
                     IsEnabled="False"
                     Text="{Binding SelectedTicket.DateResolved}" Grid.Column="1" Grid.Row="1"/>
             </Grid>
@@ -104,5 +113,3 @@
         </Grid>
     </Grid>
 </UserControl>
-
-    

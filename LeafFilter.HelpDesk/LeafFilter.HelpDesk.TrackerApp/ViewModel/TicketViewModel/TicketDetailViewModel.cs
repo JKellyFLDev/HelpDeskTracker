@@ -18,7 +18,8 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
         private IUserRepository _userRepository = new UserRepository();
         private Ticket _selectedTicket;
         //private User _selectedUser;
-        private int _selectedIndex;
+        private int _selectedIndexRequested;
+        private int _selectIndexAssigned;
         private int _progress;
 
         public List<User> Users { get; set; }
@@ -26,10 +27,10 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
         public TicketDetailViewModel()
         {
             if (DesignerProperties.GetIsInDesignMode(
-               new System.Windows.DependencyObject())) return;            
+               new System.Windows.DependencyObject())) return;
 
-            Users = Task.Run(() => _userRepository.GetAllUsersAsync()).Result;                       
-        }        
+            Users = Task.Run(() => _userRepository.GetAllUsersAsync()).Result;
+        }
 
         public Ticket SelectedTicket
         {
@@ -41,14 +42,15 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
                 if (value.Status != null)
                     Progress = value.Status.Order;
                 if (value.RequestedBy != null)
-                {                 
-                    SelectedIndex = Users.FindIndex(x => x.Id.Equals(value.RequestedBy.Id));
+                {
+                    SelectedIndexRequested = Users.FindIndex(x => x.Id.Equals(value.RequestedBy.Id));
+                    SelectedIndexAssigned = Users.FindIndex(x => x.Id.Equals(value.AssignedTo.Id));
                     //SelectedUser = Users[SelectedIndex];
                 }
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedTicket)));
             }
         }
-        
+
         //public User SelectedUser
         //{
         //    get => _selectedUser;
@@ -56,7 +58,7 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
         //    {
         //        _selectedUser = value;
         //        if(SelectedTicket != null)
-        //            SelectedTicket.RequestedBy = value;       
+        //            SelectedTicket.RequestedBy = value;
         //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedUser)));
         //    }
         //}
@@ -69,7 +71,7 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
                 _selectedIndex = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIndex)));
             }
-        }        
+        }
 
         public int Progress
         {
@@ -80,4 +82,3 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }
-
