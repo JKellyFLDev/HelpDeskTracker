@@ -9,10 +9,10 @@ namespace LeafFilter.HelpDesk.TrackerApp.Services.Interfaces
     {
         Task<List<Ticket>> GetAllTicketsAsync();
         Task<Ticket> GetTicketAsync(Guid ticketId);
-        Task<Ticket> CreateNewTicketAsync();
-        Task<Ticket> AddTicketAsync(Ticket ticket);
+        Ticket CreateNewTicket();
+        Task<Ticket> AddTicketAsync(Ticket ticket);        
         Task<Ticket> UpdateTicketAsync(Ticket ticket);
         Task<int> SaveTicketsAsync();
-        Task DeleteTicketAsync(Guid ticketId);
+        Task DeleteTicketAsync(Guid ticketId);               
     }
 }

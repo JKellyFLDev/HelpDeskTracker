@@ -83,11 +83,16 @@ namespace LeafFilter.HelpDesk.TestConsole
         {
             var ticketStatuses = new List<TicketStatus>()
             {
-                new TicketStatus { Name = "New",            Order = 1,  CreatedBy = Environment.UserName},
-                new TicketStatus { Name = "Assigned",       Order = 2,  CreatedBy = Environment.UserName},
-                new TicketStatus { Name = "In-Progress",    Order = 3,  CreatedBy = Environment.UserName},
-                new TicketStatus { Name = "Resolved",       Order = 4,  CreatedBy = Environment.UserName},
-                new TicketStatus { Name = "Canceled",       Order = 4,  CreatedBy = Environment.UserName}
+                new TicketStatus { Name = "Canceled",           Order = 0,  CreatedBy = Environment.UserName},
+                new TicketStatus { Name = "New",                Order = 0,  CreatedBy = Environment.UserName},
+                new TicketStatus { Name = "Created",            Order = 5,  CreatedBy = Environment.UserName},
+                new TicketStatus { Name = "Assigned",           Order = 15,  CreatedBy = Environment.UserName},
+                new TicketStatus { Name = "Started",            Order = 20,  CreatedBy = Environment.UserName},
+                new TicketStatus { Name = "Responded",          Order = 25,  CreatedBy = Environment.UserName},
+                new TicketStatus { Name = "Modified",           Order = 30,  CreatedBy = Environment.UserName},
+                new TicketStatus { Name = "Development",        Order = 50,  CreatedBy = Environment.UserName},
+                new TicketStatus { Name = "Updated-Requestor",  Order = 70,  CreatedBy = Environment.UserName},
+                new TicketStatus { Name = "Resolved",           Order = 100,  CreatedBy = Environment.UserName}
             };
             _context.AddRange(ticketStatuses);
             _context.SaveChanges();
@@ -461,7 +466,7 @@ namespace LeafFilter.HelpDesk.TestConsole
                 new Ticket {
                     Name = "Ticket-ACD-s11",
                     RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "gweber"),
-                    Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "New"),
+                    Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Created"),
                     CreatedBy = Environment.UserName,
                     TicketIssues = new List<TicketIssueXRef>()
                     {
@@ -486,11 +491,71 @@ namespace LeafFilter.HelpDesk.TestConsole
                     }
                 },
                 new Ticket {
+                    Name = "Ticket-AB-s11",
+                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jsmith"),
+                    AssignedTo = _context.Users.FirstOrDefault(u => u.UserName == "mbarker"),
+                    Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Started"),
+                    CreatedBy = Environment.UserName,
+                    TicketIssues = new List<TicketIssueXRef>()
+                    {
+                        new TicketIssueXRef
+                        {
+                            Issue = _context.Issues.First(i => i.Name == "Issue-F-003")
+                        }
+                    }
+                },
+                new Ticket {
                     Name = "Ticket-AB-091",
                     RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jsmith"),
                     AssignedTo = _context.Users.FirstOrDefault(u => u.UserName == "jkelly"),
-                    Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "In-Progress"),
+                    Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Responded"),
                     CreatedBy = Environment.UserName,
+                    TicketIssues = new List<TicketIssueXRef>()
+                    {
+                        new TicketIssueXRef
+                        {
+                            Issue = _context.Issues.First(i => i.Name == "Issue-A-001")
+                        }
+                    }
+                },
+                new Ticket {
+                    Name = "Ticket-AB-091",
+                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jsmith"),
+                    AssignedTo = _context.Users.FirstOrDefault(u => u.UserName == "jkelly"),
+                    Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Modified"),
+                    CreatedBy = Environment.UserName,
+                    TicketIssues = new List<TicketIssueXRef>()
+                    {
+                        new TicketIssueXRef
+                        {
+                            Issue = _context.Issues.First(i => i.Name == "Issue-A-001")
+                        }
+                    }
+                },
+                new Ticket {
+                    Name = "Ticket-AB-091",
+                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jsmith"),
+                    AssignedTo = _context.Users.FirstOrDefault(u => u.UserName == "jkelly"),
+                    Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Development"),
+                    CreatedBy = Environment.UserName,
+                    TicketIssues = new List<TicketIssueXRef>()
+                    {
+                        new TicketIssueXRef
+                        {
+                            Issue = _context.Issues.First(i => i.Name == "Issue-A-001")
+                        }
+                    }
+                },
+                new Ticket {
+                    Name = "Ticket-AB-092",
+                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jkelly"),
+                    AssignedTo = _context.Users.FirstOrDefault(u => u.UserName == "jsmith"),
+                    Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Updated-Requestor"),
+                    DateOpened = DateTime.Now.AddHours(-15),
+                    DateResolved = DateTime.Now,
+                    CreatedBy = Environment.UserName,
+                    ModifiedBy = Environment.UserName,
+                    ModifiedDate = DateTime.Now,
                     TicketIssues = new List<TicketIssueXRef>()
                     {
                         new TicketIssueXRef
@@ -516,7 +581,7 @@ namespace LeafFilter.HelpDesk.TestConsole
                             Issue = _context.Issues.First(i => i.Name == "Issue-A-001")
                         }
                     }
-                },
+                },          
                 new Ticket {
                     Name = "Ticket-AB-093",
                     RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jkelly"),

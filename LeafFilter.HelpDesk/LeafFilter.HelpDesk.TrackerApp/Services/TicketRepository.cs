@@ -36,15 +36,14 @@ namespace LeafFilter.HelpDesk.TrackerApp.Services
             return await _context.Tickets.FirstOrDefaultAsync(x => x.Id == ticketId);
         }
 
-
-        public async Task<Ticket> CreateNewTicketAsync()
+        public Ticket CreateNewTicket()
         {
             var ticket = new Ticket
             {
                 Name = "TempName",
-                Status = await _context.TicketStatus.FirstOrDefaultAsync(x => x.Name == "New"),
+                Status = Task.Run(() => _context.TicketStatus.FirstOrDefaultAsync(x => x.Name == "New")).Result,
                 DateOpened = DateTime.Now,
-                CreatedBy = Environment.UserName
+                CreatedBy = Environment.UserName,                
             };
             _context.Tickets.Add(ticket);
             return ticket;

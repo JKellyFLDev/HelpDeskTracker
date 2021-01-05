@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Caliburn.Micro" Version="3.2.0" />
     <PackageReference Include="MaterialDesignThemes" Version="3.2.0" />
     <PackageReference Include="MaterialDesignXaml.DialogsHelper" Version="1.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0">
@@ -19,6 +20,10 @@
   <ItemGroup>
     <ProjectReference Include="..\LeafFilter.HelpDesk.Data\LeafFilter.HelpDesk.Data.csproj" />
     <ProjectReference Include="..\LeafFilter.HelpDesk.Models\LeafFilter.HelpDesk.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Utilities\Converters\" />
   </ItemGroup>
 
 </Project>

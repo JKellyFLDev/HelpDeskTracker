@@ -16,8 +16,7 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
     {
         private ITicketRepository _repository = new TicketRepository();
         private ObservableCollection<Ticket> _tickets;
-        private Ticket _selectedTicket;
-        private ObservableCollection<HelpDeskItem> _detailViews;
+        private Ticket _selectedTicket;        
         private HelpDeskItem _selectedDetailView;
 
         public ObservableCollection<Ticket> Tickets
@@ -37,16 +36,6 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
             }
         }
 
-        public ObservableCollection<HelpDeskItem> DetailViews
-        {
-            get { return _detailViews; }
-            set
-            {
-                _detailViews = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DetailViews)));
-            }
-        }
-
         public HelpDeskItem SelectedDetailView
         {
             get { return _selectedDetailView; }
@@ -59,8 +48,7 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
 
         public RelayCommand AddTicketCommand { get; private set; }
         public RelayCommand SaveTicketCommand { get; private set; }
-        public RelayCommand DeleteCommand { get; private set; }
-        //public RelayCommand TicketChangeCommand { get; private set; }
+        public RelayCommand DeleteCommand { get; private set; }        
 
         public event Action<Ticket> AddTicketRequested = delegate { };
 
@@ -71,31 +59,19 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
 
             AddTicketCommand = new RelayCommand(OnAddTicket);
             SaveTicketCommand = new RelayCommand(OnSaveTickets);
-            DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-            //TicketChangeCommand = new RelayCommand(OnTicketChange);            
+            DeleteCommand = new RelayCommand(OnDelete, CanDelete);               
 
-            Tickets = new ObservableCollection<Ticket>(Task.Run(() => _repository.GetAllTicketsAsync()).Result);            
+            Tickets = new ObservableCollection<Ticket>(Task.Run(() => _repository.GetAllTicketsAsync()).Result);
+            SelectedTicket = Tickets[0];
         }
-
-        //private void OnTicketChange()
-        //{
-        //    DetailView =
-        //}
+ 
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        //private void GenerateDetailViews()
-        //{
-        //    DetailViews = new ObservableCollection<HelpDeskItem>();
-        //    if (Tickets != null)
-        //        foreach (var v in Tickets)
-        //            DetailViews.Add(new HelpDeskItem("", new TicketDetailViewModel(v)));
-        //}
-
         private void OnAddTicket()
         {
-            SelectedTicket = Task.Run(() => _repository.CreateNewTicketAsync()).Result;
-            Tickets.Add(SelectedTicket);
+            SelectedTicket = Task.Run(() => _repository.CreateNewTicket()).Result;
+            Tickets.Add(SelectedTicket);           
         }
 
         private void OnSaveTickets()

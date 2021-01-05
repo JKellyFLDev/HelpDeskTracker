@@ -1,8 +1,8 @@
 ﻿<UserControl x:Class="LeafFilter.HelpDesk.TrackerApp.View.TicketView.TicketDetailView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"              
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:utilities="clr-namespace:LeafFilter.HelpDesk.TrackerApp.Utilities"
              utilities:ViewModelLocator.AutoWireViewModel="True"
@@ -13,40 +13,96 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding SelectedTicket.Name}" 
                    Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                    Padding="10" Grid.Row="0"/>
-        <ProgressBar Value="50" Margin="5" materialDesign:TransitionAssist.DisableTransitions="True" 
+        <ProgressBar Value="{Binding Progress}" Margin="5" materialDesign:TransitionAssist.DisableTransitions="True"
                      Height="8" Grid.Row="1"/>
         <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal" Grid.Column="0">
-                <Label Content="Name"/>
-                <TextBox Text="{Binding SelectedTicket.Name}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Column="1">
-                <Label Content="Name"/>
-                <TextBox Text="{Binding SelectedTicket.RequestedBy.FirstName}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Column="2">
-                <Label Content="Name"/>
-                <TextBox Text="{Binding SelectedTicket.AssignedTo.FirstName}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Column="3">
-                <Label Content="Open "/>
-                <TextBox Text="{Binding SelectedTicket.DateOpened}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Column="4">
-                <Label Content="Resolved"/>
-                <TextBox Text="{Binding SelectedTicket.DateResolved}"/>
-            </StackPanel>
+            <Grid                             
+                HorizontalAlignment="Stretch"                
+                Margin="20" Grid.Column="0" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Assigned To:" Grid.Column="0" Grid.Row="0"/>
+                <TextBox Grid.Column="1" Grid.Row="0">
+                    <TextBox.Text>
+                        <MultiBinding StringFormat="{}{0} {1}">
+                            <Binding Path="SelectedTicket.AssignedTo.FirstName"/>
+                            <Binding Path="SelectedTicket.AssignedTo.LastName"/>
+                        </MultiBinding>
+                    </TextBox.Text>
+                </TextBox>
+                <Label Content="Requested By:" Grid.Column="0" Grid.Row="1"/>
+                <ComboBox Grid.Column="1" Grid.Row="1"                  
+                          ItemsSource="{Binding Users, Mode=TwoWay}"
+                          SelectedItem="{Binding SelectedTicket.RequestedBy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                          
+                          SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} {1}">
+                                        <Binding Path="FirstName"/>
+                                        <Binding Path="LastName"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+            <Grid                 
+                HorizontalAlignment="Stretch"
+                Margin="20" Grid.Column="1" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Content="Open:"
+                       HorizontalContentAlignment="Right"
+                       VerticalContentAlignment="Center"
+                       Grid.Column="0" Grid.Row="0"/>
+                <DatePicker
+                    IsEnabled="False"                    
+                    HorizontalContentAlignment="Center"                               
+                    Text="{Binding SelectedTicket.DateOpened}" Grid.Column="1" Grid.Row="0"/>
+                <Label Content="Resolved:"
+                       HorizontalAlignment="Right"
+                       VerticalContentAlignment="Center"
+                       Grid.Column="0" Grid.Row="1"/>
+                <DatePicker             
+                    HorizontalContentAlignment="Center"                    
+                    IsEnabled="False"
+                    Text="{Binding SelectedTicket.DateResolved}" Grid.Column="1" Grid.Row="1"/>
+            </Grid>
+
+            <!--<StackPanel Grid.Row="0" Grid.Column="1"></StackPanel>
+            <GroupBox Grid.Row="1" Grid.ColumnSpan="2"></GroupBox>
+            <ListView></ListView>-->
         </Grid>
     </Grid>
 </UserControl>
+
+    

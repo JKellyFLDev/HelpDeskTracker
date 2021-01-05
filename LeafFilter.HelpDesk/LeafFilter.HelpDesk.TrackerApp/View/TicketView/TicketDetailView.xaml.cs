@@ -20,7 +20,7 @@ namespace LeafFilter.HelpDesk.TrackerApp.View.TicketView
     {
         public TicketDetailView()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
     }
 }

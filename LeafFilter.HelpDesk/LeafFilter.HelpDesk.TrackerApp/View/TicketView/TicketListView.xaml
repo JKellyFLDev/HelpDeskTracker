@@ -7,7 +7,7 @@
              xmlns:utilities="clr-namespace:LeafFilter.HelpDesk.TrackerApp.Utilities"
              utilities:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="500" d:DesignWidth="1050">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -19,13 +19,14 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="230"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
                    HorizontalAlignment="Center"                   
@@ -42,7 +43,7 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Name" HeaderContainerStyle="{StaticResource CenterAlignColumnHeaderStyle}"                                                                                
-                                        Width="150"
+                                        Width="140"
                                         CellTemplate="{Binding Source={StaticResource TicketNameTextBlock}}"/>
                         <GridViewColumn Header="Requested By" HeaderContainerStyle="{StaticResource CenterAlignColumnHeaderStyle}" 
                                         Width="140"
@@ -57,10 +58,10 @@
                                         Width="200"
                                         CellTemplate="{Binding Source={StaticResource ResolvedTextBlock}}"/>
                         <GridViewColumn Header="Status" HeaderContainerStyle="{StaticResource CenterAlignColumnHeaderStyle}"    
-                                        Width="100"
+                                        Width="130"
                                         CellTemplate="{Binding Source={StaticResource StatusTextBlock}}"/>
                         <GridViewColumn Header="Issues" HeaderContainerStyle="{StaticResource CenterAlignColumnHeaderStyle}"
-                                        Width="100"
+                                        Width="60"
                                         CellTemplate="{Binding Source={StaticResource IssueCountTextBlock}}"/>
                     </GridView>
                 </ListView.View>
@@ -69,12 +70,20 @@
         <Separator Grid.Row="2" Margin="0,15,0,10"/>
         <Grid Grid.Row="3">
             <ScrollViewer
-                materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True"
+                materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True"                
                 HorizontalScrollBarVisibility="{Binding SelectedDetailView.HorizontalScrollBarVisibilityRequirement}"
                 VerticalScrollBarVisibility="{Binding SelectedDetailView.VerticalScrollBarVisibilityRequirement}"
                 Padding="{Binding SelectedDetailView.MarginRequirement}">
                 <ContentControl Width="Auto" Content="{Binding SelectedDetailView.Content, UpdateSourceTrigger=PropertyChanged}"/>
             </ScrollViewer>
+        </Grid>
+        <Grid x:Name="TicketCommandGrid" 
+              Grid.Row="4"
+              Margin="5">
+            <Button Content="Add New" Grid.Row="4" VerticalAlignment="Bottom" HorizontalAlignment="Center" Visibility="Visible" Command="{Binding AddTicketCommand}"/>
+            <Button                 
+                Content="Save" Grid.Row="4" VerticalAlignment="Bottom" HorizontalAlignment="Left" Visibility="Visible"/>            
+            <Button Content="Cancel" Grid.Row="4" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Visible"/>
         </Grid>
     </Grid>
 </UserControl>
