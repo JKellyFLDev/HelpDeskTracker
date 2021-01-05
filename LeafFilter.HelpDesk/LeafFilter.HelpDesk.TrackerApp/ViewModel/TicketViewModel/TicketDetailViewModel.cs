@@ -63,13 +63,23 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
         //    }
         //}
 
-        public int SelectedIndex
+        public int SelectedIndexAssigned
         {
-            get => _selectedIndex;
+            get => _selectedIndexAssigned;
             set
             {
-                _selectedIndex = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIndex)));
+                _selectedIndexAssigned = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIndexAssigned)));
+            }
+        }
+
+        public int SelectedIndexRequested
+        {
+            get => _selectedIndexRequested;
+            set
+            {
+                _selectedIndexRequested = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIndexRequested)));
             }
         }
 
