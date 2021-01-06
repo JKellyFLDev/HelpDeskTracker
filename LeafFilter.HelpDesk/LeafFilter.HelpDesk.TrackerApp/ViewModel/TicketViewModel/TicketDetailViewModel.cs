@@ -17,9 +17,10 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
         private ITicketRepository _repository = new TicketRepository();
         private IUserRepository _userRepository = new UserRepository();
         private Ticket _selectedTicket;
+        private List<Issue> _ticketIssues;
         //private User _selectedUser;
         private int _selectedIndexRequested;
-        private int _selectIndexAssigned;
+        private int _selectedIndexAssigned;
         private int _progress;
 
         public List<User> Users { get; set; }
@@ -32,6 +33,16 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
             Users = Task.Run(() => _userRepository.GetAllUsersAsync()).Result;
         }
 
+        public List<Issue> TicketIssues
+        {
+            get => _ticketIssues;
+            set
+            {
+                _ticketIssues = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TicketIssues)));
+            }
+        }
+
         public Ticket SelectedTicket
         {
             get => _selectedTicket;
@@ -40,13 +51,22 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
                 _selectedTicket = value;
 
                 if (value.Status != null)
+                {
                     Progress = value.Status.Order;
+                }
+                if (value.TicketIssues != null)
+                {
+                    TicketIssues = value.TicketIssues.Select(x => x.Issue).ToList();
+                }
                 if (value.RequestedBy != null)
                 {
-                    SelectedIndexRequested = Users.FindIndex(x => x.Id.Equals(value.RequestedBy.Id));
-                    SelectedIndexAssigned = Users.FindIndex(x => x.Id.Equals(value.AssignedTo.Id));
-                    //SelectedUser = Users[SelectedIndex];
+                    SelectedIndexRequested = Users.FindIndex(x => x.Id.Equals(value.RequestedBy.Id));                    
                 }
+                if (value.AssignedTo != null)
+                {
+                    SelectedIndexAssigned = Users.FindIndex(x => x.Id.Equals(value.AssignedTo.Id));
+                }
+
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedTicket)));
             }
         }

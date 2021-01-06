@@ -12,7 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding SelectedTicket.Name}"
@@ -22,6 +22,7 @@
                      Height="8" Grid.Row="1"/>
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -42,7 +43,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Content="Assigned To:" Grid.Column="0" Grid.Row="0"/>
-                <ComboBox Grid.Column="1" Grid.Row="1"
+                <ComboBox Grid.Column="1" Grid.Row="0"
                           ItemsSource="{Binding Users, Mode=TwoWay}"
                           SelectedItem="{Binding SelectedTicket.AssignedTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedIndex="{Binding SelectedIndexAssigned, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -107,9 +108,38 @@
                     Text="{Binding SelectedTicket.DateResolved}" Grid.Column="1" Grid.Row="1"/>
             </Grid>
 
-            <!--<StackPanel Grid.Row="0" Grid.Column="1"></StackPanel>
-            <GroupBox Grid.Row="1" Grid.ColumnSpan="2"></GroupBox>
-            <ListView></ListView>-->
+            <!--TODO: Move ComboBox ItemTemplete into LF Styles-->
+            
+            <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                <ListView Grid.Row="2" Grid.ColumnSpan="2"
+                          ItemsSource="{Binding TicketIssues, Mode=TwoWay}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Issue" DisplayMemberBinding="{Binding Name}"/>
+                            <GridViewColumn Header="Severity" DisplayMemberBinding="{Binding IssueSeverity.Name}"/>
+                            <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+
+            <StackPanel Grid.Row="1" Grid.ColumnSpan="2"                        
+                        Margin="5"
+                        Height="Auto">
+                <TextBlock Text="Comments:" Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                           HorizontalAlignment="Center"/>
+                <TextBox
+                    TextWrapping="Wrap"
+                    VerticalAlignment="Stretch"                    
+                    MinWidth="200"
+                    Height="Auto"
+                    AcceptsReturn="True"
+                    VerticalScrollBarVisibility="Auto"
+                    SpellCheck.IsEnabled="True"      
+                    Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"                    
+                    Text="{Binding SelectedTicket.Comment}"/>
+            </StackPanel>
+
         </Grid>
     </Grid>
 </UserControl>

@@ -13,6 +13,8 @@ namespace LeafFilter.HelpDesk.TrackerApp.Services
     {
         HelpDeskContext _context = new HelpDeskContext();
 
+        IIssueRepository issueRepository = new IssueRepository();
+
         public async Task<List<Ticket>> GetAllTicketsAsync()
         {
             var tickets = await _context.Tickets.ToListAsync();
@@ -28,6 +30,9 @@ namespace LeafFilter.HelpDesk.TrackerApp.Services
             _context.Entry(ticket).Reference(u => u.RequestedBy).Load();
             _context.Entry(ticket).Reference(s => s.Status).Load();
             _context.Entry(ticket).Collection(i => i.TicketIssues).Load();
+
+            _context.Issues.Load();
+                        
             return ticket;
         }
 
