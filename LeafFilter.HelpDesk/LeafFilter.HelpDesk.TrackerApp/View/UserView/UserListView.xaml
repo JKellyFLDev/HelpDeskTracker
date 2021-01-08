@@ -6,24 +6,62 @@
              xmlns:utilities="clr-namespace:LeafFilter.HelpDesk.TrackerApp.Utilities"
              mc:Ignorable="d"
              utilities:ViewModelLocator.AutoWireViewModel="True">
-    <Grid>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ListView.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.Green.Named.Primary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Grid.Row="1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <DataGrid x:Name="userDataGrid"
                   AutoGenerateColumns="False"
                   EnableRowVirtualization="True"
-                  ItemsSource="{Binding Users}"
+                  ItemsSource="{Binding Users, Mode=TwoWay}"
+                  SelectedItem="{Binding SelectedUser, UpdateSourceTrigger=PropertyChanged}"
                   RowDetailsVisibilityMode="VisibleWhenSelected"
-                  Margin="0,0,0,3">
+                  Margin="0,0,0,3"
+                  Grid.Row="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding FirstName}"
                                     Header="First Name"
-                                    Width="SizeToHeader"/>
+                                    Width="SizeToHeader"
+                                    IsReadOnly="True" />
                 <DataGridTextColumn Binding="{Binding LastName}"
                                     Header="Last Name"
-                                    Width="SizeToHeader"/>
+                                    Width="SizeToHeader"
+                                    IsReadOnly="True" />
                 <DataGridTextColumn Binding="{Binding UserName}"
                                     Header="User Name"
-                                    Width="SizeToHeader" />
+                                    Width="SizeToHeader"
+                                    IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
+        <Separator Grid.Row="1" Margin="0,15,0,10"/>
+        <Grid Grid.Row="2">
+            <ScrollViewer              
+                HorizontalScrollBarVisibility="{Binding SelectedDetailView.HorizontalScrollBarVisibilityRequirement}"
+                VerticalScrollBarVisibility="{Binding SelectedDetailView.VerticalScrollBarVisibilityRequirement}"
+                Padding="{Binding SelectedDetailView.MarginRequirement}">
+                <ContentControl Width="Auto" Content="{Binding SelectedDetailView.Content, UpdateSourceTrigger=PropertyChanged}"/>
+            </ScrollViewer>
+        </Grid>
+        <Grid x:Name="TicketCommandGrid" 
+              Grid.Row="3"
+              Margin="5">
+            <Button Content="Add New" Grid.Row="4" VerticalAlignment="Bottom" HorizontalAlignment="Center" Visibility="Visible" Command="{Binding AddUserCommand}"/>
+            <Button Content="Save" Grid.Row="4" VerticalAlignment="Bottom" HorizontalAlignment="Left" Visibility="Visible" Command="{Binding SaveUserCommand}" />
+            <Button Content="Cancel" Grid.Row="4" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Visible"/>
+        </Grid>
     </Grid>
 </UserControl>

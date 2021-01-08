@@ -25,11 +25,26 @@ namespace LeafFilter.HelpDesk.TrackerApp.Services
         
         public async Task<User> AddUserAsync(User user)
         {
-            _context.Users.Add(user);            
+            if (!_context.Users.Local.Contains(user))
+            {
+                _context.Users.Add(user);
+            }
             await _context.SaveChangesAsync();
             return user;
         }
-        
+        public User CreateNewUser()
+        {
+            var user = new User
+            {
+                FirstName = "Temp First Name",
+                LastName = "Temp Last Name",
+                UserName = "Temp User Name",
+                CreatedBy = Environment.UserName,
+            };
+            _context.Users.Add(user);
+            return user;
+        }
+
         public async Task<User> UpdateUserAsync(User user)
         {
             if (!_context.Users.Local.Any(u => u.Id == user.Id))
