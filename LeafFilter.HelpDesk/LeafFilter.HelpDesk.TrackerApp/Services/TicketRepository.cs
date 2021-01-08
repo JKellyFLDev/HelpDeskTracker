@@ -11,34 +11,27 @@ namespace LeafFilter.HelpDesk.TrackerApp.Services
 {
     public class TicketRepository : ITicketRepository
     {
-        HelpDeskContext _context = new HelpDeskContext();
-
-        IIssueRepository issueRepository = new IssueRepository();
+        HelpDeskContext _context = new HelpDeskContext();        
 
         public async Task<List<Ticket>> GetAllTicketsAsync()
         {
             var tickets = await _context.Tickets.ToListAsync();
-            tickets.ForEach(x => x = LoadTicket(x.Id));
+            tickets.ForEach(x => x = Task.Run(() => GetTicketAsync(x.Id)).Result);
 
             return tickets;
         }        
 
-        public Ticket LoadTicket(Guid ticketId)
-        {
-            var ticket = _context.Tickets.Find(ticketId);
-            _context.Entry(ticket).Reference(u => u.AssignedTo).Load();
-            _context.Entry(ticket).Reference(u => u.RequestedBy).Load();
-            _context.Entry(ticket).Reference(s => s.Status).Load();
-            _context.Entry(ticket).Collection(i => i.TicketIssues).Load();
-
-            _context.Issues.Load();
-                        
-            return ticket;
-        }
-
         public async Task<Ticket> GetTicketAsync(Guid ticketId)
         {
-            return await _context.Tickets.FirstOrDefaultAsync(x => x.Id == ticketId);
+            var ticket = await _context.Tickets.FirstOrDefaultAsync(x => x.Id == ticketId);
+            await _context.Entry(ticket).Reference(u => u.AssignedTo).LoadAsync();
+            await _context.Entry(ticket).Reference(u => u.RequestedBy).LoadAsync();
+            await _context.Entry(ticket).Reference(s => s.Status).LoadAsync();
+            await _context.Entry(ticket).Collection(i => i.TicketIssues).LoadAsync();
+
+            ticket.TicketIssues.ForEach(ti => ti.Issue = Task.Run(() => new IssueRepository().GetIssueAsync(ti.IssueId)).Result);
+
+            return ticket;
         }
 
         public Ticket CreateNewTicket()

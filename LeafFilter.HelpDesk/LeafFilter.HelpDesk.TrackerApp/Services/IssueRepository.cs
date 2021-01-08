@@ -16,22 +16,17 @@ namespace LeafFilter.HelpDesk.TrackerApp.Services
         public async Task<List<Issue>> GetAllIssuesAsync()
         {
             var issues = await _context.Issues.ToListAsync();
-            issues.ForEach(x => x = LoadIssues(x.Id));
+            issues.ForEach(x => x = Task.Run(() => GetIssueAsync(x.Id)).Result);
 
             return issues;
         }
 
-        public Issue LoadIssues(Guid issueId)
-        {
-            var issue = _context.Issues.Find(issueId);
-            _context.Entry(issue).Reference(u => u.IssueSeverity).Load();
-
-            return issue;
-        }
-
         public async Task<Issue> GetIssueAsync(Guid issueId)
         {
-            return await _context.Issues.FirstOrDefaultAsync(x => x.Id == issueId);
+            var issue = await _context.Issues.FirstOrDefaultAsync(x => x.Id == issueId);
+            await _context.Entry(issue).Reference(u => u.IssueSeverity).LoadAsync();
+
+            return issue;
         }
 
         public async Task<Issue> AddIssueAsync(Issue issue)

@@ -70,7 +70,7 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
 
         private void OnAddTicket()
         {
-            SelectedTicket = Task.Run(() => _repository.CreateNewTicket()).Result;
+            SelectedTicket = _repository.CreateNewTicket();
             Tickets.Add(SelectedTicket);           
         }
 
