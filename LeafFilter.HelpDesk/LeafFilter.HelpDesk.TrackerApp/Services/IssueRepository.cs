@@ -1,5 +1,6 @@
 ﻿using LeafFilter.HelpDesk.Data;
 using LeafFilter.HelpDesk.Models.Records;
+using LeafFilter.HelpDesk.Models.Types;
 using LeafFilter.HelpDesk.TrackerApp.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,10 +18,14 @@ namespace LeafFilter.HelpDesk.TrackerApp.Services
         {
             var issues = await _context.Issues.ToListAsync();
             issues.ForEach(x => x = Task.Run(() => GetIssueAsync(x.Id)).Result);
+            
 
             return issues;
         }
-
+        public async Task<List<IssueSeverity>> GetAllSeveritiesAsync()
+        {
+            return await _context.IssueSeverity.ToListAsync();
+        }
         public async Task<Issue> GetIssueAsync(Guid issueId)
         {
             var issue = await _context.Issues.FirstOrDefaultAsync(x => x.Id == issueId);

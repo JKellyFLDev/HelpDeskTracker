@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="LeafFilter.HelpDesk.TrackerApp.View.UserView.UserDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:utilities="clr-namespace:LeafFilter.HelpDesk.TrackerApp.Utilities"
+             utilities:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Background="White" Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Content="First Name:" Grid.Column="0" Grid.Row="0"/>
+        <TextBox Text="{Binding SelectedUser.FirstName}" Grid.Column="1" Grid.Row="0" Width="200" />
+        <Label Content="Last Name:" Grid.Column="0" Grid.Row="1"/>
+        <TextBox Text="{Binding SelectedUser.LastName}" Grid.Column="1" Grid.Row="1" Width="200" />
+        <Label Content="Username:" Grid.Column="0" Grid.Row="2"/>
+        <TextBox Text="{Binding SelectedUser.UserName}" Grid.Column="1" Grid.Row="2" Width="200" />
+        <Label Content="Email:" Grid.Column="0" Grid.Row="3"/>
+        <TextBox Text="{Binding SelectedUser.Email}" Grid.Column="1" Grid.Row="3" Width="200"/>
+        <Label Content="Active:" Grid.Column="0" Grid.Row="4"/>
+        <CheckBox IsChecked="{Binding SelectedUser.Active}" Grid.Column="1" Grid.Row="4" />
+    </Grid>
+</UserControl>
+

@@ -5,14 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:utilities="clr-namespace:LeafFilter.HelpDesk.TrackerApp.Utilities"
              mc:Ignorable="d" 
-             utilities:ViewModelLocator.AutoWireViewModel="True">
+             utilities:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="500" d:DesignWidth="1050">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
         <DataGrid x:Name="processDataGrid"
                   AutoGenerateColumns="False"
                   EnableRowVirtualization="True"
                   ItemsSource="{Binding Issues}"
                   RowDetailsVisibilityMode="VisibleWhenSelected"
-                  Margin="0,0,0,3">
+                  Margin="0,0,0,3"
+                  Grid.Row="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Name}"
                                     Header="Name"
@@ -20,7 +27,19 @@
                 <DataGridTextColumn Binding="{Binding IssueSeverity.Name}"
                                     Header="Issue Severity"
                                     Width="SizeToHeader"/>
+                <DataGridTextColumn Binding="{Binding Description}"
+                                    Header="Description"
+                                    Width="SizeToCells"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Separator Grid.Row="1" Margin="0,15,0,10"/>
+        <Grid Grid.Row="2">
+            <ScrollViewer              
+                HorizontalScrollBarVisibility="{Binding SelectedDetailView.HorizontalScrollBarVisibilityRequirement}"
+                VerticalScrollBarVisibility="{Binding SelectedDetailView.VerticalScrollBarVisibilityRequirement}"
+                Padding="{Binding SelectedDetailView.MarginRequirement}">
+                <ContentControl Width="Auto" Content="{Binding SelectedDetailView.Content, UpdateSourceTrigger=PropertyChanged}"/>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </UserControl>
