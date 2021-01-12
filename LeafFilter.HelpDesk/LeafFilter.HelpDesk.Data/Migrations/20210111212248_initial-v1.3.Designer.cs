@@ -4,14 +4,16 @@ using LeafFilter.HelpDesk.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LeafFilter.HelpDesk.Data.Migrations
 {
     [DbContext(typeof(HelpDeskContext))]
-    partial class HelpDeskContextModelSnapshot : ModelSnapshot
+    [Migration("20210111212248_initial-v1.3")]
+    partial class initialv13
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

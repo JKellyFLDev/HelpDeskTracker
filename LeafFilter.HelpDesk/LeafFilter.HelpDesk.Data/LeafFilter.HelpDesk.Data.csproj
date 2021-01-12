@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LeafFilter.HelpDesk.Models\LeafFilter.HelpDesk.Models.csproj" />
+    <ProjectReference Include="..\LeafFilter.HelpDesk.Models\LeafFilter.HelpDesk.Model.csproj" />
   </ItemGroup>
 
   <ItemGroup>

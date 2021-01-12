@@ -1,8 +1,6 @@
-﻿using LeafFilter.HelpDesk.Models;
-using LeafFilter.HelpDesk.Models.Interfaces;
-using LeafFilter.HelpDesk.Models.XRef;
-using LeafFilter.HelpDesk.Models.Records;
-using LeafFilter.HelpDesk.Models.Types;
+﻿using LeafFilter.HelpDesk.Model;
+using LeafFilter.HelpDesk.Model.XRef;
+using LeafFilter.HelpDesk.Model.Conditions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
@@ -22,16 +20,16 @@ namespace LeafFilter.HelpDesk.Data
                        .AddConsole();
             });
 
-        public DbSet<IssueSeverity> IssueSeverity { get; set; }
+        public DbSet<SeverityType> SeverityType { get; set; }
         public DbSet<TicketStatus> TicketStatus { get; set; }
-        public DbSet<AppPermission> AppPermissions { get; set; }
+        public DbSet<PermissionType> PermissionType { get; set; }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Script> Scripts { get; set; }
-        public DbSet<Page> Pages { get; set; }
-        public DbSet<Process> Processes { get; set; }
-        public DbSet<Issue> Issues { get; set; }
-        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Script> Script { get; set; }
+        public DbSet<Page> Page { get; set; }
+        public DbSet<Process> Process { get; set; }
+        public DbSet<Issue> Issue { get; set; }
+        public DbSet<Ticket> Ticket { get; set; }
 
         //public DbSet<UserAppPermissionXRef> UserAppPermissions { get; set; }
         //public DbSet<ProcessScriptXRef> ProcessScripts { get; set; }
@@ -42,8 +40,8 @@ namespace LeafFilter.HelpDesk.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 #if DEBUG
-            var connectionString = "Server=localhost; Initial Catalog=HelpDeskDB; Integrated Security=SSPI";
-            //var connectionString = ConfigurationManager.ConnectionStrings["LocalDatabase"].ToString();
+            //var connectionString = "Server=localhost; Initial Catalog=HelpDeskDB; Integrated Security=SSPI";
+            var connectionString = ConfigurationManager.ConnectionStrings["LocalDatabase"].ToString();
             //var connectionString = "Server=LF942\\MSSQLSERVERLOCAL; Initial Catalog=HelpDeskData; Integrated Security=SSPI";
 #elif RELEASE
             var connectionString = ConfigurationManager.ConnectionStrings["LocalDatabase"].ToString();
@@ -58,15 +56,15 @@ namespace LeafFilter.HelpDesk.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // UserPermissionXRef
-            modelBuilder.Entity<UserAppPermissionXRef>()
+            modelBuilder.Entity<UserPermissionTypeXRef>()
                 .HasKey(x => new { x.UserId, x.AppPermissionId });
-            modelBuilder.Entity<UserAppPermissionXRef>()
+            modelBuilder.Entity<UserPermissionTypeXRef>()
                 .HasOne(up => up.User)
                 .WithMany(u => u.UserAppPermissions)
                 .HasForeignKey(up => up.UserId);
-            modelBuilder.Entity<UserAppPermissionXRef>()
+            modelBuilder.Entity<UserPermissionTypeXRef>()
                 .HasOne(up => up.AppPermission)
-                .WithMany(p => p.UserAppPermissions)
+                .WithMany(p => p.UserPermissions)
                 .HasForeignKey(up => up.AppPermissionId);
 
             // ProcessScriptXRef
@@ -117,44 +115,82 @@ namespace LeafFilter.HelpDesk.Data
                 .WithMany(i => i.TicketIssues)
                 .HasForeignKey(ti => ti.IssueId);
 
-            modelBuilder.Entity<IssueSeverity>()
+            // SeverityType
+            modelBuilder.Entity<SeverityType>()
                 .Property(s => s.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");
-            modelBuilder.Entity<IssueSeverity>()
+            modelBuilder.Entity<SeverityType>()
+                .Property(t => t.ModifiedDate)
+                .HasDefaultValueSql("GETDATE()");
+            modelBuilder.Entity<SeverityType>()
                 .Property(s => s.Active)
                 .HasDefaultValueSql("1");
 
+            // TicketStatus
             modelBuilder.Entity<TicketStatus>()
                 .Property(t => t.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");
             modelBuilder.Entity<TicketStatus>()
-                .Property(s => s.Active)
-                .HasDefaultValueSql("1");
+                .Property(t => t.ModifiedDate)
+                .HasDefaultValueSql("GETDATE()");
 
-            modelBuilder.Entity<AppPermission>()
+            // PermissionType
+            modelBuilder.Entity<PermissionType>()
                 .Property(t => t.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");
-            modelBuilder.Entity<AppPermission>()
+            modelBuilder.Entity<PermissionType>()
+                .Property(t => t.ModifiedDate)
+                .HasDefaultValueSql("GETDATE()");
+            modelBuilder.Entity<PermissionType>()
                 .Property(t => t.Active)
                 .HasDefaultValueSql("1");         
             
+            // User
             modelBuilder.Entity<User>()
                 .Property(t => t.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");
+            modelBuilder.Entity<User>()
+                .Property(t => t.ModifiedDate)
+                .HasDefaultValueSql("GETDATE()");
+
+            // Script
             modelBuilder.Entity<Script>()
                 .Property(t => t.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");
+            modelBuilder.Entity<Script>()
+                .Property(t => t.ModifiedDate)
+                .HasDefaultValueSql("GETDATE()");
+
+            // Page
             modelBuilder.Entity<Page>()
                 .Property(t => t.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");
+            modelBuilder.Entity<Page>()
+                .Property(t => t.ModifiedDate)
+                .HasDefaultValueSql("GETDATE()");
+
+            // Process
             modelBuilder.Entity<Process>()
                 .Property(t => t.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");
+            modelBuilder.Entity<Process>()
+                .Property(t => t.ModifiedDate)
+                .HasDefaultValueSql("GETDATE()");
+                        
+            // Issue
             modelBuilder.Entity<Issue>()
                 .Property(t => t.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");
+            modelBuilder.Entity<Issue>()
+                .Property(t => t.ModifiedDate)
+                .HasDefaultValueSql("GETDATE()");
+
+            // Ticket
             modelBuilder.Entity<Ticket>()
                 .Property(t => t.CreatedDate)
+                .HasDefaultValueSql("GETDATE()");
+            modelBuilder.Entity<Ticket>()
+                .Property(t => t.ModifiedDate)
                 .HasDefaultValueSql("GETDATE()");
             modelBuilder.Entity<Ticket>()
                 .Property(t => t.DateOpened)
