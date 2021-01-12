@@ -1,7 +1,7 @@
 ﻿using LeafFilter.HelpDesk.Data;
-using LeafFilter.HelpDesk.Models.XRef;
-using LeafFilter.HelpDesk.Models.Records;
-using LeafFilter.HelpDesk.Models.Types;
+using LeafFilter.HelpDesk.Model.XRef;
+using LeafFilter.HelpDesk.Model;
+using LeafFilter.HelpDesk.Model.Conditions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,41 +41,41 @@ namespace LeafFilter.HelpDesk.TestConsole
             if (_context.TicketStatus.FirstOrDefault() == null)
                 CreateTicketStatuses();
 
-            if (_context.IssueSeverity.FirstOrDefault() == null)
+            if (_context.SeverityType.FirstOrDefault() == null)
                 CreateIssueSeverities();
 
-            if (_context.AppPermissions.FirstOrDefault() == null)
+            if (_context.PermissionType.FirstOrDefault() == null)
                 CreateAppPermissions();
 
-            if (_context.Users.FirstOrDefault() == null)
+            if (_context.User.FirstOrDefault() == null)
                 CreateNewUsers();
 
-            if (_context.Scripts.FirstOrDefault() == null)
+            if (_context.Script.FirstOrDefault() == null)
                 CreateNewScripts();
 
-            if (_context.Pages.FirstOrDefault() == null)
+            if (_context.Page.FirstOrDefault() == null)
                 CreateNewPages();
 
-            if (_context.Processes.FirstOrDefault() == null)
+            if (_context.Process.FirstOrDefault() == null)
                 CreateNewProcesses();
 
-            if (_context.Issues.FirstOrDefault() == null)
+            if (_context.Issue.FirstOrDefault() == null)
                 CreateMultipleIssues();
 
-            if (_context.Tickets.FirstOrDefault() == null)
+            if (_context.Ticket.FirstOrDefault() == null)
                 CreateMultipleTickets();
         }
         private static void RemoveAllData()
         {
             Console.WriteLine("Removing all records from database...");
-            _context.Tickets.Clear();
-            _context.Issues.Clear();
-            _context.Processes.Clear();
-            _context.Pages.Clear();
-            _context.Scripts.Clear();
-            _context.Users.Clear();
-            _context.AppPermissions.Clear();
-            _context.IssueSeverity.Clear();
+            _context.Ticket.Clear();
+            _context.Issue.Clear();
+            _context.Process.Clear();
+            _context.Page.Clear();
+            _context.Script.Clear();
+            _context.User.Clear();
+            _context.PermissionType.Clear();
+            _context.SeverityType.Clear();
             _context.TicketStatus.Clear();
             _context.SaveChanges();
         }
@@ -99,36 +99,36 @@ namespace LeafFilter.HelpDesk.TestConsole
         }
         private static void CreateIssueSeverities()
         {
-            var issueSeverities = new List<IssueSeverity>()
+            var issueSeverities = new List<SeverityType>()
             {
-                new IssueSeverity
+                new SeverityType
                 {
                     Level = "S1",
                     Name = "Emergency",
                     Description = "The issue is prevent all or most Users from using Platform",
                     CreatedBy = Environment.UserName
                 },
-                new IssueSeverity
+                new SeverityType
                 {
                     Level = "S2",
                     Name = "Critical",
                     Description = "The System is adversely impacted.",
                     CreatedBy = Environment.UserName
                 },
-                new IssueSeverity {
+                new SeverityType {
                     Level = "S3",
                     Name = "Major",
                     Description = "The system experienced an error, short-term workaround available.",
                     CreatedBy = Environment.UserName
                 },
-                new IssueSeverity
+                new SeverityType
                 {
                     Level = "S4",
                     Name = "Minor",
                     Description = "Issue and requests without significant impact on system.",
                     CreatedBy = Environment.UserName
                 },
-                new IssueSeverity
+                new SeverityType
                 {
                     Level = "S5",
                     Name = "Trivial",
@@ -141,14 +141,14 @@ namespace LeafFilter.HelpDesk.TestConsole
         }
         private static void CreateAppPermissions()
         {
-            var permissions = new List<AppPermission>()
+            var permissions = new List<PermissionType>()
             {
-                new AppPermission
+                new PermissionType
                 {
                     Name = "Admin",
                     CreatedBy = Environment.UserName
                 },
-                new AppPermission
+                new PermissionType
                 {
                     Name = "User",
                     CreatedBy = Environment.UserName
@@ -167,11 +167,11 @@ namespace LeafFilter.HelpDesk.TestConsole
                     LastName = "Weber",
                     Email = "gweber@leaffilter.com",
                     UserName = "gweber",
-                    UserAppPermissions = new List<UserAppPermissionXRef>()
+                    UserAppPermissions = new List<UserPermissionTypeXRef>()
                     {
-                        new UserAppPermissionXRef
+                        new UserPermissionTypeXRef
                         {
-                            AppPermission = _context.AppPermissions.FirstOrDefault(p => p.Name == "Admin")
+                            AppPermission = _context.PermissionType.FirstOrDefault(p => p.Name == "Admin")
                         }
                     },
                     CreatedBy = Environment.UserName
@@ -182,11 +182,11 @@ namespace LeafFilter.HelpDesk.TestConsole
                     LastName = "Kelly",
                     Email = "jkelly@leaffilter.com",
                     UserName = "jkelly",
-                    UserAppPermissions = new List<UserAppPermissionXRef>()
+                    UserAppPermissions = new List<UserPermissionTypeXRef>()
                     {
-                        new UserAppPermissionXRef
+                        new UserPermissionTypeXRef
                         {
-                            AppPermission = _context.AppPermissions.FirstOrDefault(p => p.Name == "Admin")
+                            AppPermission = _context.PermissionType.FirstOrDefault(p => p.Name == "Admin")
                         }
                     },
                     CreatedBy = Environment.UserName
@@ -196,11 +196,11 @@ namespace LeafFilter.HelpDesk.TestConsole
                     FirstName = "John",
                     LastName = "Smith",
                     UserName = "jsmith",
-                    UserAppPermissions = new List<UserAppPermissionXRef>()
+                    UserAppPermissions = new List<UserPermissionTypeXRef>()
                     {
-                        new UserAppPermissionXRef
+                        new UserPermissionTypeXRef
                         {
-                            AppPermission = _context.AppPermissions.FirstOrDefault(p => p.Name == "User")
+                            AppPermission = _context.PermissionType.FirstOrDefault(p => p.Name == "User")
                         }
                     },
                     CreatedBy = Environment.UserName
@@ -211,11 +211,11 @@ namespace LeafFilter.HelpDesk.TestConsole
                     LastName = "Barker",
                     UserName = "mbarker",
                     Email = "mbarker@leaffilter.com",
-                    UserAppPermissions = new List<UserAppPermissionXRef>()
+                    UserAppPermissions = new List<UserPermissionTypeXRef>()
                     {
-                        new UserAppPermissionXRef
+                        new UserPermissionTypeXRef
                         {
-                            AppPermission = _context.AppPermissions.FirstOrDefault(p => p.Name == "Admin")
+                            AppPermission = _context.PermissionType.FirstOrDefault(p => p.Name == "Admin")
                         }
                     },
                     CreatedBy = Environment.UserName
@@ -280,7 +280,7 @@ namespace LeafFilter.HelpDesk.TestConsole
                     {
                         new ProcessScriptXRef
                         {
-                            Script = _context.Scripts.FirstOrDefault(s => s.Name == "Get-Info")
+                            Script = _context.Script.FirstOrDefault(s => s.Name == "Get-Info")
                         }
                     },
                     CreatedBy = Environment.UserName
@@ -295,11 +295,11 @@ namespace LeafFilter.HelpDesk.TestConsole
                     {
                         new ProcessScriptXRef
                         {
-                            Script = _context.Scripts.FirstOrDefault(s => s.Name == "Get-Info")
+                            Script = _context.Script.FirstOrDefault(s => s.Name == "Get-Info")
                         },
                         new ProcessScriptXRef
                         {
-                            Script = _context.Scripts.FirstOrDefault(s => s.Name == "Delete-Info")
+                            Script = _context.Script.FirstOrDefault(s => s.Name == "Delete-Info")
                         }
                     },
                     CreatedBy = Environment.UserName
@@ -314,11 +314,11 @@ namespace LeafFilter.HelpDesk.TestConsole
                     {
                         new ProcessScriptXRef
                         {
-                            Script = _context.Scripts.FirstOrDefault(s => s.Name == "Get-Info")
+                            Script = _context.Script.FirstOrDefault(s => s.Name == "Get-Info")
                         },
                         new ProcessScriptXRef
                         {
-                            Script = _context.Scripts.FirstOrDefault(s => s.Name == "Delete-Info")
+                            Script = _context.Script.FirstOrDefault(s => s.Name == "Delete-Info")
                         }
                     },
                     CreatedBy = Environment.UserName
@@ -333,17 +333,17 @@ namespace LeafFilter.HelpDesk.TestConsole
                     {
                         new ProcessPageXRef
                         {
-                            Page = _context.Pages.FirstOrDefault(s => s.Name == "Search-Web")
+                            Page = _context.Page.FirstOrDefault(s => s.Name == "Search-Web")
                         },
                         new ProcessPageXRef
                         {
-                            Page = _context.Pages.FirstOrDefault(s => s.Name == "Remove-Lead")
+                            Page = _context.Page.FirstOrDefault(s => s.Name == "Remove-Lead")
                         }
                     },
                     CreatedBy = Environment.UserName
                 }
             };
-            _context.Processes.AddRange(processes);
+            _context.Process.AddRange(processes);
             _context.SaveChanges();
         }
         private static void CreateMultipleIssues()
@@ -354,13 +354,13 @@ namespace LeafFilter.HelpDesk.TestConsole
                 {
                     Name = "Issue-A-001",
                     Description = "Does a thing.",
-                    IssueSeverity = _context.IssueSeverity.FirstOrDefault(s => s.Level == "S1"),
+                    SeverityType = _context.SeverityType.FirstOrDefault(s => s.Level == "S1"),
                     CreatedBy = Environment.UserName,
                     IssueProcesses = new List<IssueProcessXRef>()
                     {
                         new IssueProcessXRef
                         {
-                            Process = _context.Processes.First(p => p.Name == "PRO-010-001"),
+                            Process = _context.Process.First(p => p.Name == "PRO-010-001"),
                             Order = 1
                         }
                     }
@@ -369,13 +369,13 @@ namespace LeafFilter.HelpDesk.TestConsole
                 {
                     Name = "Issue-A-002",
                     Description = "Does a thing.",
-                    IssueSeverity = _context.IssueSeverity.FirstOrDefault(s => s.Level == "S1"),
+                    SeverityType = _context.SeverityType.FirstOrDefault(s => s.Level == "S1"),
                     CreatedBy = Environment.UserName,
                     IssueProcesses = new List<IssueProcessXRef>()
                     {
                         new IssueProcessXRef
                         {
-                            Process = _context.Processes.First(p => p.Name == "PRO-010-001"),
+                            Process = _context.Process.First(p => p.Name == "PRO-010-001"),
                             Order = 1
                         }
                     }
@@ -384,13 +384,13 @@ namespace LeafFilter.HelpDesk.TestConsole
                 {
                     Name = "Issue-F-003",
                     Description = "Does a thing.",
-                    IssueSeverity = _context.IssueSeverity.FirstOrDefault(s => s.Level == "S1"),
+                    SeverityType = _context.SeverityType.FirstOrDefault(s => s.Level == "S1"),
                     CreatedBy = Environment.UserName,
                     IssueProcesses = new List<IssueProcessXRef>()
                     {
                         new IssueProcessXRef
                         {
-                            Process = _context.Processes.First(p => p.Name == "PRO-010-001"),
+                            Process = _context.Process.First(p => p.Name == "PRO-010-001"),
                             Order = 1
                         }
                     }
@@ -399,13 +399,13 @@ namespace LeafFilter.HelpDesk.TestConsole
                 {
                     Name = "Issue-D-004",
                     Description = "Does a thing.",
-                    IssueSeverity = _context.IssueSeverity.FirstOrDefault(s => s.Level == "S1"),
+                    SeverityType = _context.SeverityType.FirstOrDefault(s => s.Level == "S1"),
                     CreatedBy = Environment.UserName,
                     IssueProcesses = new List<IssueProcessXRef>()
                     {
                         new IssueProcessXRef
                         {
-                            Process = _context.Processes.First(p => p.Name == "PRO-010-001"),
+                            Process = _context.Process.First(p => p.Name == "PRO-010-001"),
                             Order = 1
                         }
                     }
@@ -414,13 +414,13 @@ namespace LeafFilter.HelpDesk.TestConsole
                 {
                     Name = "Issue-C-005",
                     Description = "Does a thing.",
-                    IssueSeverity = _context.IssueSeverity.FirstOrDefault(s => s.Level == "S1"),
+                    SeverityType = _context.SeverityType.FirstOrDefault(s => s.Level == "S1"),
                     CreatedBy = Environment.UserName,
                     IssueProcesses = new List<IssueProcessXRef>()
                     {
                         new IssueProcessXRef
                         {
-                            Process = _context.Processes.First(p => p.Name == "PRO-010-001"),
+                            Process = _context.Process.First(p => p.Name == "PRO-010-001"),
                             Order = 1
                         }
                     }
@@ -429,13 +429,13 @@ namespace LeafFilter.HelpDesk.TestConsole
                 {
                     Name = "Issue-B-006",
                     Description = "Does a thing.",
-                    IssueSeverity = _context.IssueSeverity.FirstOrDefault(s => s.Level == "S1"),
+                    SeverityType = _context.SeverityType.FirstOrDefault(s => s.Level == "S1"),
                     CreatedBy = Environment.UserName,
                     IssueProcesses = new List<IssueProcessXRef>()
                     {
                         new IssueProcessXRef
                         {
-                            Process = _context.Processes.First(p => p.Name == "PRO-010-001"),
+                            Process = _context.Process.First(p => p.Name == "PRO-010-001"),
                             Order = 1
                         }
                     }
@@ -444,13 +444,13 @@ namespace LeafFilter.HelpDesk.TestConsole
                 {
                     Name = "Issue-A-019",
                     Description = "Does a thing.",
-                    IssueSeverity = _context.IssueSeverity.FirstOrDefault(s => s.Level == "S1"),
+                    SeverityType = _context.SeverityType.FirstOrDefault(s => s.Level == "S1"),
                     CreatedBy = Environment.UserName,
                     IssueProcesses = new List<IssueProcessXRef>()
                     {
                         new IssueProcessXRef
                         {
-                            Process = _context.Processes.First(p => p.Name == "PRO-010-001"),
+                            Process = _context.Process.First(p => p.Name == "PRO-010-001"),
                             Order = 1
                         }
                     }
@@ -465,91 +465,91 @@ namespace LeafFilter.HelpDesk.TestConsole
             {
                 new Ticket {
                     Name = "Ticket-ACD-s11",
-                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "gweber"),
+                    RequestedBy = _context.User.FirstOrDefault(u => u.UserName == "gweber"),
                     Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Created"),
                     CreatedBy = Environment.UserName,
                     TicketIssues = new List<TicketIssueXRef>()
                     {
                         new TicketIssueXRef
                         {
-                            Issue = _context.Issues.First(i => i.Name == "Issue-A-001")
+                            Issue = _context.Issue.First(i => i.Name == "Issue-A-001")
                         }
                     }
                 },
                 new Ticket {
                     Name = "Ticket-AB-s11",
-                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jsmith"),
-                    AssignedTo = _context.Users.FirstOrDefault(u => u.UserName == "mbarker"),
+                    RequestedBy = _context.User.FirstOrDefault(u => u.UserName == "jsmith"),
+                    AssignedTo = _context.User.FirstOrDefault(u => u.UserName == "mbarker"),
                     Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Assigned"),
                     CreatedBy = Environment.UserName,
                     TicketIssues = new List<TicketIssueXRef>()
                     {
                         new TicketIssueXRef
                         {
-                            Issue = _context.Issues.First(i => i.Name == "Issue-F-003")
+                            Issue = _context.Issue.First(i => i.Name == "Issue-F-003")
                         }
                     }
                 },
                 new Ticket {
                     Name = "Ticket-AB-s11",
-                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jsmith"),
-                    AssignedTo = _context.Users.FirstOrDefault(u => u.UserName == "mbarker"),
+                    RequestedBy = _context.User.FirstOrDefault(u => u.UserName == "jsmith"),
+                    AssignedTo = _context.User.FirstOrDefault(u => u.UserName == "mbarker"),
                     Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Started"),
                     CreatedBy = Environment.UserName,
                     TicketIssues = new List<TicketIssueXRef>()
                     {
                         new TicketIssueXRef
                         {
-                            Issue = _context.Issues.First(i => i.Name == "Issue-F-003")
+                            Issue = _context.Issue.First(i => i.Name == "Issue-F-003")
                         }
                     }
                 },
                 new Ticket {
                     Name = "Ticket-AB-091",
-                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jsmith"),
-                    AssignedTo = _context.Users.FirstOrDefault(u => u.UserName == "jkelly"),
+                    RequestedBy = _context.User.FirstOrDefault(u => u.UserName == "jsmith"),
+                    AssignedTo = _context.User.FirstOrDefault(u => u.UserName == "jkelly"),
                     Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Responded"),
                     CreatedBy = Environment.UserName,
                     TicketIssues = new List<TicketIssueXRef>()
                     {
                         new TicketIssueXRef
                         {
-                            Issue = _context.Issues.First(i => i.Name == "Issue-A-001")
+                            Issue = _context.Issue.First(i => i.Name == "Issue-A-001")
                         }
                     }
                 },
                 new Ticket {
                     Name = "Ticket-AB-091",
-                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jsmith"),
-                    AssignedTo = _context.Users.FirstOrDefault(u => u.UserName == "jkelly"),
+                    RequestedBy = _context.User.FirstOrDefault(u => u.UserName == "jsmith"),
+                    AssignedTo = _context.User.FirstOrDefault(u => u.UserName == "jkelly"),
                     Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Modified"),
                     CreatedBy = Environment.UserName,
                     TicketIssues = new List<TicketIssueXRef>()
                     {
                         new TicketIssueXRef
                         {
-                            Issue = _context.Issues.First(i => i.Name == "Issue-A-001")
+                            Issue = _context.Issue.First(i => i.Name == "Issue-A-001")
                         }
                     }
                 },
                 new Ticket {
                     Name = "Ticket-AB-091",
-                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jsmith"),
-                    AssignedTo = _context.Users.FirstOrDefault(u => u.UserName == "jkelly"),
+                    RequestedBy = _context.User.FirstOrDefault(u => u.UserName == "jsmith"),
+                    AssignedTo = _context.User.FirstOrDefault(u => u.UserName == "jkelly"),
                     Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Development"),
                     CreatedBy = Environment.UserName,
                     TicketIssues = new List<TicketIssueXRef>()
                     {
                         new TicketIssueXRef
                         {
-                            Issue = _context.Issues.First(i => i.Name == "Issue-A-001")
+                            Issue = _context.Issue.First(i => i.Name == "Issue-A-001")
                         }
                     }
                 },
                 new Ticket {
                     Name = "Ticket-AB-092",
-                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jkelly"),
-                    AssignedTo = _context.Users.FirstOrDefault(u => u.UserName == "jsmith"),
+                    RequestedBy = _context.User.FirstOrDefault(u => u.UserName == "jkelly"),
+                    AssignedTo = _context.User.FirstOrDefault(u => u.UserName == "jsmith"),
                     Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Updated-Requestor"),
                     DateOpened = DateTime.Now.AddHours(-15),
                     DateResolved = DateTime.Now,
@@ -560,14 +560,14 @@ namespace LeafFilter.HelpDesk.TestConsole
                     {
                         new TicketIssueXRef
                         {
-                            Issue = _context.Issues.First(i => i.Name == "Issue-A-001")
+                            Issue = _context.Issue.First(i => i.Name == "Issue-A-001")
                         }
                     }
                 },
                 new Ticket {
                     Name = "Ticket-AB-092",
-                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jsmith"),
-                    AssignedTo = _context.Users.FirstOrDefault(u => u.UserName == "jkelly"),
+                    RequestedBy = _context.User.FirstOrDefault(u => u.UserName == "jsmith"),
+                    AssignedTo = _context.User.FirstOrDefault(u => u.UserName == "jkelly"),
                     Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Resolved"),
                     DateOpened = DateTime.Now.AddHours(-15),
                     DateResolved = DateTime.Now,                    
@@ -578,14 +578,14 @@ namespace LeafFilter.HelpDesk.TestConsole
                     {
                         new TicketIssueXRef
                         {
-                            Issue = _context.Issues.First(i => i.Name == "Issue-A-001")
+                            Issue = _context.Issue.First(i => i.Name == "Issue-A-001")
                         }
                     }
                 },          
                 new Ticket {
                     Name = "Ticket-AB-093",
-                    RequestedBy = _context.Users.FirstOrDefault(u => u.UserName == "jkelly"),
-                    AssignedTo = _context.Users.FirstOrDefault(u => u.UserName == "jkelly"),
+                    RequestedBy = _context.User.FirstOrDefault(u => u.UserName == "jkelly"),
+                    AssignedTo = _context.User.FirstOrDefault(u => u.UserName == "jkelly"),
                     Status = _context.TicketStatus.FirstOrDefault(s => s.Name == "Canceled"),
                     DateOpened = DateTime.Now.AddHours(-2),                    
                     CreatedBy = Environment.UserName,
@@ -595,11 +595,11 @@ namespace LeafFilter.HelpDesk.TestConsole
                     {
                         new TicketIssueXRef
                         {
-                            Issue = _context.Issues.First(i => i.Name == "Issue-A-002")                            
+                            Issue = _context.Issue.First(i => i.Name == "Issue-A-002")                            
                         },
                         new TicketIssueXRef
                         {
-                            Issue = _context.Issues.First(i => i.Name == "Issue-A-001")
+                            Issue = _context.Issue.First(i => i.Name == "Issue-A-001")
                         }
                     }
                 }
