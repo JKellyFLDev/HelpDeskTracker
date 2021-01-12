@@ -1,10 +1,10 @@
-﻿using LeafFilter.HelpDesk.Models.Interfaces;
-using LeafFilter.HelpDesk.Models.XRef;
-using LeafFilter.HelpDesk.Models.Types;
+﻿using LeafFilter.HelpDesk.Model.Base;
+using LeafFilter.HelpDesk.Model.XRef;
+using LeafFilter.HelpDesk.Model.Conditions;
 using System;
 using System.Collections.Generic;
 
-namespace LeafFilter.HelpDesk.Models.Records
+namespace LeafFilter.HelpDesk.Model
 {
     public class Ticket : IEntity
     {

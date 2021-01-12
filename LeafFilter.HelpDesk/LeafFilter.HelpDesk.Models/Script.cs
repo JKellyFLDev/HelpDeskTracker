@@ -1,9 +1,9 @@
-﻿using LeafFilter.HelpDesk.Models.Interfaces;
-using LeafFilter.HelpDesk.Models.XRef;
+﻿using LeafFilter.HelpDesk.Model.Base;
+using LeafFilter.HelpDesk.Model.XRef;
 using System;
 using System.Collections.Generic;
 
-namespace LeafFilter.HelpDesk.Models.Records
+namespace LeafFilter.HelpDesk.Model
 {
     public class Script : IEntity
     {

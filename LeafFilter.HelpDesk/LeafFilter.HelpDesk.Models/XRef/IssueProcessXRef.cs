@@ -1,7 +1,6 @@
-﻿using LeafFilter.HelpDesk.Models.Records;
-using System;
+﻿using System;
 
-namespace LeafFilter.HelpDesk.Models.XRef
+namespace LeafFilter.HelpDesk.Model.XRef
 {
     public class IssueProcessXRef
     {        

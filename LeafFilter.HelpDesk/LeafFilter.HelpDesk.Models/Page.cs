@@ -1,25 +1,27 @@
-﻿using LeafFilter.HelpDesk.Models.Interfaces;
-using LeafFilter.HelpDesk.Models.XRef;
+﻿using LeafFilter.HelpDesk.Model.Base;
+using LeafFilter.HelpDesk.Model.XRef;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace LeafFilter.HelpDesk.Models.Types
+namespace LeafFilter.HelpDesk.Model
 {
-    public class AppPermission : ITypeEntity
+    public class Page : IEntity
     {
-        public AppPermission()
+        public Page()
         {
-            UserAppPermissions = new List<UserAppPermissionXRef>();
+            ProcessPages = new List<ProcessPageXRef>();
         }
 
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Url { get; set; }
+        public string Label { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
-        public bool Active { get; set; }
-        public List<UserAppPermissionXRef> UserAppPermissions { get; set; }
+        public List<ProcessPageXRef> ProcessPages { get; set; }
     }
 }

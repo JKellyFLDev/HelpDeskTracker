@@ -1,18 +1,16 @@
-﻿using LeafFilter.HelpDesk.Models.Interfaces;
+﻿using LeafFilter.HelpDesk.Model.Base;
 using System;
 
-namespace LeafFilter.HelpDesk.Models.Types
+namespace LeafFilter.HelpDesk.Model.Conditions
 {
-    public class TicketStatus : ITypeEntity
+    public class TicketStatus : IStatusEntity
     {       
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public int Order { get; set; }
-        public string Description { get; set; }
+        public int Order { get; set; }        
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
-        public bool Active { get; set; }
     }
 }

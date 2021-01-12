@@ -1,15 +1,15 @@
-﻿using LeafFilter.HelpDesk.Models.Interfaces;
-using LeafFilter.HelpDesk.Models.XRef;
+﻿using LeafFilter.HelpDesk.Model.Base;
+using LeafFilter.HelpDesk.Model.XRef;
 using System;
 using System.Collections.Generic;
 
-namespace LeafFilter.HelpDesk.Models.Records
+namespace LeafFilter.HelpDesk.Model
 {
     public class User : IEntity
     {
         public User()
         {
-            UserAppPermissions = new List<UserAppPermissionXRef>();
+            UserAppPermissions = new List<UserPermissionTypeXRef>();
         }
 
         public Guid Id { get; set; }
@@ -22,6 +22,6 @@ namespace LeafFilter.HelpDesk.Models.Records
         public DateTime? ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
         public bool Active { get;set; }
-        public List<UserAppPermissionXRef> UserAppPermissions { get; set; }
+        public List<UserPermissionTypeXRef> UserAppPermissions { get; set; }
     }
 }

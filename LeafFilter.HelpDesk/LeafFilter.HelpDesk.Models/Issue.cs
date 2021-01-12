@@ -1,10 +1,10 @@
-﻿using LeafFilter.HelpDesk.Models.Interfaces;
-using LeafFilter.HelpDesk.Models.Types;
-using LeafFilter.HelpDesk.Models.XRef;
+﻿using LeafFilter.HelpDesk.Model.Base;
+using LeafFilter.HelpDesk.Model.Conditions;
+using LeafFilter.HelpDesk.Model.XRef;
 using System;
 using System.Collections.Generic;
 
-namespace LeafFilter.HelpDesk.Models.Records
+namespace LeafFilter.HelpDesk.Model
 {
     public class Issue : IEntity
     {                
@@ -17,7 +17,7 @@ namespace LeafFilter.HelpDesk.Models.Records
         public Guid Id { get; set; }        
         public string Name { get; set; }
         public string Description { get; set; }
-        public IssueSeverity IssueSeverity { get; set; }        
+        public SeverityType SeverityType { get; set; }        
         public string Comment { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
