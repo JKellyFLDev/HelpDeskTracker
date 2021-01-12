@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LeafFilter.HelpDesk.Data\LeafFilter.HelpDesk.Data.csproj" />
+    <ProjectReference Include="..\LeafFilter.HelpDesk.Models\LeafFilter.HelpDesk.Model.csproj" />
+    <ProjectReference Include="..\LeafFilter.HelpDesk.Repository\LeafFilter.HelpDesk.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
