@@ -1,6 +1,7 @@
-﻿using LeafFilter.HelpDesk.Models.Records;
-using LeafFilter.HelpDesk.TrackerApp.Services;
-using LeafFilter.HelpDesk.TrackerApp.Services.Interfaces;
+﻿using LeafFilter.HelpDesk.Data;
+using LeafFilter.HelpDesk.Model;
+using LeafFilter.HelpDesk.Repository;
+using LeafFilter.HelpDesk.Service;
 using LeafFilter.HelpDesk.TrackerApp.Utilities;
 using LeafFilter.HelpDesk.TrackerApp.View.UserView;
 using System;
@@ -11,8 +12,9 @@ using System.Threading.Tasks;
 namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.UserViewModel
 {
     public class UserListViewModel : INotifyPropertyChanged
-    {       
-        private IUserRepository _repository = new UserRepository();
+    {               
+        private IUserService _userService;
+
         private ObservableCollection<User> _users;
         private User _selectedUser;
         private HelpDeskItem _selectedDetailView;
@@ -57,7 +59,10 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.UserViewModel
             DeleteUserCommand = new RelayCommand(OnDelete, CanDelete);
             SaveUserCommand = new RelayCommand(OnSaveUsers);
 
-            Users = new ObservableCollection<User>(Task.Run(() => _repository.GetAllUsersAsync()).Result);
+            HelpDeskContext context = new HelpDeskContext();
+            _userService = new UserService(new UserRepository(context), context);
+
+            Users = new ObservableCollection<User>(Task.Run(() => _userService.LoadAllAsync()).Result);
             SelectedUser = Users[0];
         }
 
@@ -66,14 +71,14 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.UserViewModel
 
         private void OnAddUser()
         {
-            SelectedUser = Task.Run(() => _repository.CreateNewUser()).Result;
-            Task.Run(() => _repository.AddUserAsync(SelectedUser));
+            SelectedUser = Task.Run(() => _userService.CreateNewUser()).Result;
+            Task.Run(() => _userService.InsertAsync(SelectedUser));
             Users.Add(SelectedUser);
         }
 
         private void OnSaveUsers()
         {
-            var result = Task.Run(() => _repository.UpdateUserAsync(SelectedUser)).Result;
+            var result = Task.Run(() => _userService.UpdateAsync(SelectedUser)).Result;
             return;
         }
 

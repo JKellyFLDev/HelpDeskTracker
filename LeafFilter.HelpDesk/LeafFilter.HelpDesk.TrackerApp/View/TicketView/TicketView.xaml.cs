@@ -14,13 +14,13 @@ using System.Windows.Shapes;
 namespace LeafFilter.HelpDesk.TrackerApp.View.TicketView
 {
     /// <summary>
-    /// Interaction logic for TicketListView.xaml
+    /// Interaction logic for TicketView.xaml
     /// </summary>
-    public partial class TicketListView : UserControl
-    {       
-        public TicketListView()
+    public partial class TicketView : UserControl
+    {
+        public TicketView()
         {
-            InitializeComponent();            
-        }        
+            InitializeComponent();
+        }
     }
 }

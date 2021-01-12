@@ -14,15 +14,14 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LeafFilter.HelpDesk.Data\LeafFilter.HelpDesk.Data.csproj" />
-    <ProjectReference Include="..\LeafFilter.HelpDesk.Models\LeafFilter.HelpDesk.Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Utilities\Converters\" />
+    <ProjectReference Include="..\LeafFilter.HelpDesk.Models\LeafFilter.HelpDesk.Model.csproj" />
+    <ProjectReference Include="..\LeafFilter.HelpDesk.Repository\LeafFilter.HelpDesk.Repository.csproj" />
+    <ProjectReference Include="..\LeafFilter.HelpDesk.Services\LeafFilter.HelpDesk.Service.csproj" />
   </ItemGroup>
 
 </Project>

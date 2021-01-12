@@ -36,7 +36,7 @@ namespace LeafFilter.HelpDesk.Repository
             return await _context.SeverityType.ToListAsync();
         }                
 
-        public async Task<SeverityType> GetSingleIdAsync(Guid id)
+        public async Task<SeverityType> GetSingleByIdAsync(Guid id)
         {
             return await _context.SeverityType.FirstOrDefaultAsync(x => x.Id == id);
         }

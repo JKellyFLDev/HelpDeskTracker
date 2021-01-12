@@ -1,6 +1,7 @@
-﻿using LeafFilter.HelpDesk.Models.Records;
-using LeafFilter.HelpDesk.TrackerApp.Services;
-using LeafFilter.HelpDesk.TrackerApp.Services.Interfaces;
+﻿using LeafFilter.HelpDesk.Data;
+using LeafFilter.HelpDesk.Model;
+using LeafFilter.HelpDesk.Repository;
+using LeafFilter.HelpDesk.Service;
 using LeafFilter.HelpDesk.TrackerApp.Utilities;
 using LeafFilter.HelpDesk.TrackerApp.View.IssueView;
 using System.Collections.ObjectModel;
@@ -11,8 +12,7 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.IssueViewModel
 {
     public class IssueListViewModel
     {
-        private IIssueRepository _repository = new IssueRepository();
-
+        private readonly IIssueService _issueService;
         private ObservableCollection<Issue> _issues;
         private HelpDeskItem _selectedDetailView;
         public ObservableCollection<Issue> Issues
@@ -47,13 +47,16 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.IssueViewModel
         public RelayCommand DeleteCommand { get; private set; }
 
         public IssueListViewModel()
-        {
+        {    
             if (DesignerProperties.GetIsInDesignMode(
                 new System.Windows.DependencyObject())) return;
 
             DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 
-            Issues = new ObservableCollection<Issue>(Task.Run(() => _repository.GetAllIssuesAsync()).Result);
+            HelpDeskContext context = new HelpDeskContext();
+            _issueService = new IssueService(new IssueRepository(context), new SeverityTypeRepository(context), context);
+
+            Issues = new ObservableCollection<Issue>(Task.Run(() => _issueService.LoadAllAsync()).Result);
             SelectedIssue = Issues[0];
         }
 

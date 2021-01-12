@@ -1,6 +1,7 @@
-﻿using LeafFilter.HelpDesk.Models.Records;
-using LeafFilter.HelpDesk.TrackerApp.Services;
-using LeafFilter.HelpDesk.TrackerApp.Services.Interfaces;
+﻿using LeafFilter.HelpDesk.Data;
+using LeafFilter.HelpDesk.Model;
+using LeafFilter.HelpDesk.Repository;
+using LeafFilter.HelpDesk.Service;
 using LeafFilter.HelpDesk.TrackerApp.Utilities;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,8 +10,8 @@ using System.Threading.Tasks;
 namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.ProcessViewModel
 {
     public class ProcessListViewModel
-    {
-        private IProcessRepository _repository = new ProcessRepository();
+    {        
+        private readonly IProcessService _processService;
 
         private ObservableCollection<Process> _processes;
         public ObservableCollection<Process> Processes
@@ -39,7 +40,10 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.ProcessViewModel
 
             DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 
-            Processes = new ObservableCollection<Process>(Task.Run(() => _repository.GetAllProcessesAsync()).Result);
+            HelpDeskContext context = new HelpDeskContext();
+            _processService = new ProcessService(new ProcessRepository(context), context);
+
+            Processes = new ObservableCollection<Process>(Task.Run(() => _processService.LoadAllAsync()).Result);
         }
 
         private void OnDelete()

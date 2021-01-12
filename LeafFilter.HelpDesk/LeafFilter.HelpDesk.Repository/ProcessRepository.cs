@@ -35,7 +35,7 @@ namespace LeafFilter.HelpDesk.Repository
             return await _context.Process.ToListAsync();
         }
 
-        public async Task<Process> GetSingleIdAsync(Guid id)
+        public async Task<Process> GetSingleByIdAsync(Guid id)
         {
             return await _context.Process.FirstOrDefaultAsync(x => x.Id == id);
         }

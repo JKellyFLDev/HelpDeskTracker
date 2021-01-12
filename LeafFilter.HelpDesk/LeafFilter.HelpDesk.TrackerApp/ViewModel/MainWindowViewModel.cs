@@ -73,7 +73,11 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel
         private ObservableCollection<HelpDeskItem> GenerateHelpDeskItems()
             => new ObservableCollection<HelpDeskItem>
             {
-                new HelpDeskItem("Tickets", new TicketListView()),
+                new HelpDeskItem("Ticket View", new TicketView()),
+                new HelpDeskItem("Tickets", new TicketListView())
+                {
+                    VerticalScrollBarVisibilityRequirement = System.Windows.Controls.ScrollBarVisibility.Auto
+                },                  
                 new HelpDeskItem("Issues", new IssueListView()),
                 new HelpDeskItem("Process", new ProcessListView()),
                 new HelpDeskItem("Users", new UserListView())

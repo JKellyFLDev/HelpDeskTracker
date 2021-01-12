@@ -1,6 +1,5 @@
-﻿using LeafFilter.HelpDesk.Models.Records;
-using LeafFilter.HelpDesk.TrackerApp.Services;
-using LeafFilter.HelpDesk.TrackerApp.Services.Interfaces;
+﻿using LeafFilter.HelpDesk.Model;
+using LeafFilter.HelpDesk.Model.Conditions;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -9,36 +8,30 @@ using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using LeafFilter.HelpDesk.Models.Types;
+using LeafFilter.HelpDesk.Service;
+using LeafFilter.HelpDesk.Data;
+using LeafFilter.HelpDesk.Repository;
 
 namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.IssueViewModel
 {
     public class IssueDetailViewModel : INotifyPropertyChanged
     {
-        private IIssueRepository _issueRepository = new IssueRepository();
-        private Issue _selectedIssue;
-        //private List<IssueSeverity> _issueSeverities;
+        private readonly IIssueService _issueService;
+        private Issue _selectedIssue;        
         private int _selectedIndexSeverity;
 
-        public List<IssueSeverity> Severities { get; set; }
+        public List<SeverityType> Severities { get; set; }
 
         public IssueDetailViewModel()
         {
             if (DesignerProperties.GetIsInDesignMode(
                new System.Windows.DependencyObject())) return;
-            
-            Severities = Task.Run(() => _issueRepository.GetAllSeveritiesAsync()).Result;
-        }
 
-        //public List<IssueSeverity> IssueSeverities
-        //{
-        //    get => _issueSeverities;
-        //    set
-        //    {
-        //        _issueSeverities = value;
-        //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IssueSeverities)));
-        //    }
-        //}
+            HelpDeskContext context = new HelpDeskContext();
+            _issueService = new IssueService(new IssueRepository(context), new SeverityTypeRepository(context), context);
+            
+            Severities = Task.Run(() => _issueService.GetAllSeverity()).Result;
+        }        
 
         public int SelectedIndexSeverity
         {
@@ -56,9 +49,9 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.IssueViewModel
             set
             {
                 _selectedIssue = value;
-                if (value.IssueSeverity != null)
+                if (value.SeverityType != null)
                 {
-                    SelectedIndexSeverity = Severities.FindIndex(x => x.Id.Equals(value.IssueSeverity.Id));
+                    SelectedIndexSeverity = Severities.FindIndex(x => x.Id.Equals(value.SeverityType.Id));
                 }
 
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIssue)));

@@ -1,6 +1,6 @@
 ﻿using LeafFilter.HelpDesk.Data;
-using LeafFilter.HelpDesk.Models.Records;
-using LeafFilter.HelpDesk.Models.Types;
+using LeafFilter.HelpDesk.Model;
+using LeafFilter.HelpDesk.Model.Conditions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +21,7 @@ namespace LeafFilter.HelpDesk.TrackerApp
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    [Obsolete("Replaced with MainWindowViewModel / View")]
     public partial class MainWindow : Window
     {
 

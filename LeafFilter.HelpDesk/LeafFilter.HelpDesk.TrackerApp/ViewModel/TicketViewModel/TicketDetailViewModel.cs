@@ -1,6 +1,4 @@
-﻿using LeafFilter.HelpDesk.Models.Records;
-using LeafFilter.HelpDesk.TrackerApp.Services;
-using LeafFilter.HelpDesk.TrackerApp.Services.Interfaces;
+﻿using LeafFilter.HelpDesk.Model;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -9,16 +7,17 @@ using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using LeafFilter.HelpDesk.Service;
+using LeafFilter.HelpDesk.Data;
+using LeafFilter.HelpDesk.Repository;
 
 namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
 {
     public class TicketDetailViewModel : INotifyPropertyChanged
-    {
-        private ITicketRepository _repository = new TicketRepository();
-        private IUserRepository _userRepository = new UserRepository();
+    {        
+        private readonly ITicketService _ticketService;
         private Ticket _selectedTicket;
-        private List<Issue> _ticketIssues;
-        //private User _selectedUser;
+        private List<Issue> _ticketIssues;        
         private int _selectedIndexRequested;
         private int _selectedIndexAssigned;
         private int _progress;
@@ -30,7 +29,10 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.TicketViewModel
             if (DesignerProperties.GetIsInDesignMode(
                new System.Windows.DependencyObject())) return;
 
-            Users = Task.Run(() => _userRepository.GetAllUsersAsync()).Result;
+            HelpDeskContext context = new HelpDeskContext();
+            _ticketService = new TicketService(new TicketRepository(context), new IssueRepository(context), new TicketStatusRepository(context), new UserRepository(context), context);
+
+            Users = Task.Run(() => _ticketService.GetAllUsers()).Result;
         }
 
         public List<Issue> TicketIssues

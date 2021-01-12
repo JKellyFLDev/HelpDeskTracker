@@ -1,6 +1,4 @@
-﻿using LeafFilter.HelpDesk.Models.Records;
-using LeafFilter.HelpDesk.TrackerApp.Services;
-using LeafFilter.HelpDesk.TrackerApp.Services.Interfaces;
+﻿using LeafFilter.HelpDesk.Model;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -9,12 +7,15 @@ using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using LeafFilter.HelpDesk.Service;
+using LeafFilter.HelpDesk.Data;
+using LeafFilter.HelpDesk.Repository;
 
 namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.UserViewModel
 {
     public class UserDetailViewModel : INotifyPropertyChanged
     {
-        private IUserRepository _userRepository = new UserRepository();
+        private IUserService _userService;        
         private User _selectedUser;
         public List<User> Users { get; set; }
 
@@ -23,7 +24,10 @@ namespace LeafFilter.HelpDesk.TrackerApp.ViewModel.UserViewModel
             if (DesignerProperties.GetIsInDesignMode(
                new System.Windows.DependencyObject())) return;
 
-            Users = Task.Run(() => _userRepository.GetAllUsersAsync()).Result;
+            HelpDeskContext context = new HelpDeskContext();
+            _userService = new UserService(new UserRepository(context), context);
+
+            Users = Task.Run(() => _userService.LoadAllAsync()).Result;
         }
 
         public User SelectedUser

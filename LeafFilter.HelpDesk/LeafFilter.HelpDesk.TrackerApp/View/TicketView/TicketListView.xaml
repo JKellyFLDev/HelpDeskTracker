@@ -68,7 +68,11 @@
             </ListView>
         </Grid>
         <Separator Grid.Row="2" Margin="0,15,0,10"/>
-        <Grid Grid.Row="3">
+        <Expander
+            HorizontalAlignment="Stretch"
+            Header="Ticket Detail"
+            Grid.Row="3">
+        <Grid>
             <ScrollViewer
                 materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True"                
                 HorizontalScrollBarVisibility="{Binding SelectedDetailView.HorizontalScrollBarVisibilityRequirement}"
@@ -77,6 +81,7 @@
                 <ContentControl Width="Auto" Content="{Binding SelectedDetailView.Content, UpdateSourceTrigger=PropertyChanged}"/>
             </ScrollViewer>
         </Grid>
+        </Expander>
         <Grid x:Name="TicketCommandGrid" 
               Grid.Row="4"
               Margin="5">

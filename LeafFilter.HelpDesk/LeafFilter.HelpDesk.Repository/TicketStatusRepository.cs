@@ -9,7 +9,10 @@ using System.Threading.Tasks;
 
 namespace LeafFilter.HelpDesk.Repository
 {
-    public interface ITicketStatusRepository : IRepositoryAsync<TicketStatus> { }
+    public interface ITicketStatusRepository : IRepositoryAsync<TicketStatus>
+    {
+        Task<TicketStatus> GetSingleByNameAsync(string name);
+    }
 
     public class TicketStatusRepository : ITicketStatusRepository
     {
@@ -35,9 +38,14 @@ namespace LeafFilter.HelpDesk.Repository
             return await _context.TicketStatus.ToListAsync();
         }
 
-        public async Task<TicketStatus> GetSingleIdAsync(Guid id)
+        public async Task<TicketStatus> GetSingleByIdAsync(Guid id)
         {
             return await _context.TicketStatus.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<TicketStatus> GetSingleByNameAsync(string name)
+        {
+            return await _context.TicketStatus.FirstOrDefaultAsync(x => x.Name == name);
         }
 
         public async Task<TicketStatus> InsertAsync(TicketStatus value)

@@ -28,7 +28,7 @@ namespace LeafFilter.HelpDesk.Service
 
         public async Task<Process> LoadSingleAsync(Guid id)
         {
-            return await _processRepo.GetSingleIdAsync(id);
+            return await _processRepo.GetSingleByIdAsync(id);
         }
     }
 }

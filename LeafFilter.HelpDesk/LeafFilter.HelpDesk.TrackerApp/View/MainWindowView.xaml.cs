@@ -21,9 +21,10 @@ namespace LeafFilter.HelpDesk.TrackerApp.View
     /// </summary>
     public partial class MainWindowView : Window
     {
-        public MainWindowView()
+        public MainWindowView(object dataContext)
         {
             InitializeComponent();
+            DataContext = dataContext;
 
             LightModeToggleButton.IsChecked = new PaletteHelper().GetTheme().Equals(Theme.Light);
         }

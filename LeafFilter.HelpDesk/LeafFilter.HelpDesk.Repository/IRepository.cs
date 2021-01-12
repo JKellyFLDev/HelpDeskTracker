@@ -20,7 +20,7 @@ namespace LeafFilter.HelpDesk.Repository
     {                  
         Task DeleteByIdAsync(Guid id);
         Task<List<T>> GetAllAsync();
-        Task<T> GetSingleIdAsync(Guid id);
+        Task<T> GetSingleByIdAsync(Guid id);
         Task<T> InsertAsync(T value);
         Task<T> UpdateAsync(T value);
     }

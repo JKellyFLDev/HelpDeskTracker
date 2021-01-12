@@ -12,6 +12,8 @@ namespace LeafFilter.HelpDesk.Service
     public interface ITicketService : ITicketRepository, IServiceAsync<Ticket>
     {
         Task<List<TicketStatus>> GetAllStatus();
+        Task<List<User>> GetAllUsers();
+        Ticket CreateNewTicket();        
     }
 
     public class TicketService : TicketRepository, ITicketService
@@ -36,27 +38,45 @@ namespace LeafFilter.HelpDesk.Service
             _context = context;
         }
 
+        public Ticket CreateNewTicket()
+        {
+            var ticket = new Ticket
+            {
+                Name = "TempName",
+                Status = Task.Run(() => _ticketStatusRepo.GetSingleByNameAsync("New")).Result,
+                DateOpened = DateTime.Now,
+                CreatedBy = Environment.UserName,
+            };
+            _context.Ticket.Add(ticket);
+            return ticket;
+        }
+
         public async Task<List<TicketStatus>> GetAllStatus()
         {
             return await _ticketStatusRepo.GetAllAsync();
         }
 
+        public async Task<List<User>> GetAllUsers()
+        {
+            return await _userRepo.GetAllAsync();
+        }
+
         public async Task<List<Ticket>> LoadAllAsync()
         {
             var value = await _ticketRepo.GetAllAsync();
-            value.ForEach(async x => await LoadSingleAsync(x.Id));
+            value.ForEach(x => x = Task.Run(() => LoadSingleAsync(x.Id)).Result);
             return value;
-        }
+        }      
 
         public async Task<Ticket> LoadSingleAsync(Guid id)
         {
-            var value = await _ticketRepo.GetSingleIdAsync(id);
+            var value = await _ticketRepo.GetSingleByIdAsync(id);
             await _context.Entry(value).Reference(x => x.AssignedTo).LoadAsync();
             await _context.Entry(value).Reference(x => x.RequestedBy).LoadAsync();
             await _context.Entry(value).Reference(x => x.Status).LoadAsync();
             await _context.Entry(value).Collection(x => x.TicketIssues).LoadAsync();
 
-            value.TicketIssues.ForEach(async ti => ti.Issue = await _issueRepo.GetSingleIdAsync(ti.IssueId));
+            value.TicketIssues.ForEach(ti => ti.Issue = Task.Run(() =>  _issueRepo.GetSingleByIdAsync(ti.IssueId)).Result);
 
             return value;
         }
