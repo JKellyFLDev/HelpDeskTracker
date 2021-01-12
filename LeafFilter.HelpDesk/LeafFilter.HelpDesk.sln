@@ -5,11 +5,15 @@ VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafFilter.HelpDesk.TrackerApp", "LeafFilter.HelpDesk.TrackerApp\LeafFilter.HelpDesk.TrackerApp.csproj", "{C88D0069-0C5F-40F1-9D64-BCAF35572590}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafFilter.HelpDesk.Models", "LeafFilter.HelpDesk.Models\LeafFilter.HelpDesk.Models.csproj", "{2E68984C-0F08-40E2-9713-7CA878256930}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafFilter.HelpDesk.Model", "LeafFilter.HelpDesk.Models\LeafFilter.HelpDesk.Model.csproj", "{2E68984C-0F08-40E2-9713-7CA878256930}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafFilter.HelpDesk.Data", "LeafFilter.HelpDesk.Data\LeafFilter.HelpDesk.Data.csproj", "{D83359D0-D4E3-4E34-AC54-E50C7D646856}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafFilter.HelpDesk.TestConsole", "LeafFilter.HelpDesk.TestConsole\LeafFilter.HelpDesk.TestConsole.csproj", "{3AADFB11-4E5E-4795-B24B-AAC02B37E2E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeafFilter.HelpDesk.Service", "LeafFilter.HelpDesk.Services\LeafFilter.HelpDesk.Service.csproj", "{7059BB5C-3A7F-4505-9B24-A758336932C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeafFilter.HelpDesk.Repository", "LeafFilter.HelpDesk.Repository\LeafFilter.HelpDesk.Repository.csproj", "{1D1FB730-20A5-42AF-ABD8-1D2FE64216B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{3AADFB11-4E5E-4795-B24B-AAC02B37E2E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AADFB11-4E5E-4795-B24B-AAC02B37E2E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AADFB11-4E5E-4795-B24B-AAC02B37E2E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7059BB5C-3A7F-4505-9B24-A758336932C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7059BB5C-3A7F-4505-9B24-A758336932C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7059BB5C-3A7F-4505-9B24-A758336932C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7059BB5C-3A7F-4505-9B24-A758336932C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D1FB730-20A5-42AF-ABD8-1D2FE64216B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D1FB730-20A5-42AF-ABD8-1D2FE64216B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D1FB730-20A5-42AF-ABD8-1D2FE64216B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D1FB730-20A5-42AF-ABD8-1D2FE64216B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
